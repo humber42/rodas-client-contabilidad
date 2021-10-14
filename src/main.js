@@ -6,6 +6,7 @@ import vuetify from "./plugins/vuetify";
 import "@babel/polyfill";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "@mdi/font/css/materialdesignicons.css";
+import "./assets/animation.css";
 
 Vue.config.productionTip = false;
 
@@ -14,4 +15,8 @@ new Vue({
   store,
   vuetify,
   render: (h) => h(App),
+  created(){
+    this.$store.dispatch("getCurrentUser");
+
+  }
 }).$mount("#app");
