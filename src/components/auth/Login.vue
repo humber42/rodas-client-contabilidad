@@ -5,7 +5,7 @@
                 <v-card width="600px" shaped>
                     <v-layout row class="ma-1">
                         <v-flex>
-                            <h2 class="font-weight-thin">Bienvenido al módulo de Contabilidad de Rodas</h2>
+                            <h2 class="font-weight-thin">Bienvenido al módulo de Costos de Rodas</h2>
                         </v-flex>
                         <v-container>
                             <v-alert v-if="authError!==null" v-model="alertShow" type="error"  transition="scale-transition">

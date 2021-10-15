@@ -1,8 +1,13 @@
 <template>
     <v-container>
+        <div class="text-right">
+
+            <h2 class="font-weight-light">Bienvenido, {{user.fullname}}</h2>
+        </div>
+
         <v-card style="width: 500px" shaped >
-            <v-card-title>Contabilidad</v-card-title>
-            <v-card-text>Bienvenido al modulo de contabilidad de rodas</v-card-text>
+            <v-card-title>Costos</v-card-title>
+            <v-card-text>Bienvenido al modulo de costos de rodas</v-card-text>
         </v-card>
         <br>
         <v-alert color="secondary"></v-alert>
@@ -15,8 +20,12 @@
 </template>
 
 <script>
+    import {mapGetters} from "vuex"
     export default {
-        name: "Dashboard"
+        name: "Dashboard",
+        computed:{
+            ...mapGetters(["user"])
+        }
     }
 </script>
 

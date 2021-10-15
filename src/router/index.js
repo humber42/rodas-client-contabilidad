@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Dashboard from "../components/Dashboard";
 import Login from "../components/auth/Login";
+import TipoActividades from "../components/codifiers/TipoActividades";
 
 
 Vue.use(VueRouter);
@@ -16,6 +17,11 @@ const routes = [
     path:"/login",
     name:"Login",
     component: Login
+  },
+  {
+    path:"/activity-type",
+    name: "TipoActividades",
+    component: TipoActividades
   }
 ];
 
