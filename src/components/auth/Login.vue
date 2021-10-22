@@ -5,33 +5,33 @@
                 <v-card width="600px" shaped>
                     <v-layout row class="ma-1">
                         <v-flex>
-                            <h2 class="font-weight-thin">Bienvenido al módulo de Costos de Rodas</h2>
+                            <h2 class="font-weight-thin">{{$vuetify.lang.t("$vuetify.login.title")}}</h2>
                         </v-flex>
                         <v-container>
                             <v-alert v-if="authError!==null" v-model="alertShow" type="error"  transition="scale-transition">
-                                {{authError.response.status===504?"Espere 10 segundos los servidores se están demorando en responder":"Credeenciales incorrectas"}}
+                                {{authError.response.status===504?$vuetify.lang.t("$vuetify.login.error504"):$vuetify.lang.t("$vuetify.login.wrongCredentials")}}
                             </v-alert>
 <!--                            Login form-->
                             <v-form v-model="isFormValid" lazy-validation ref="formLogin" @submit.prevent="handleSigninUser">
                                 <v-layout row class="ma-1">
                                     <v-flex xs12>
                                         <v-text-field v-model="username" :rules="rules.usernameRules" prepend-icon="mdi-account"
-                                        label="Usuario" aria-autocomplete="list" aria-required="true" type="text"></v-text-field>
+                                        :label="$vuetify.lang.t('$vuetify.login.username')" aria-autocomplete="list" aria-required="true" type="text"></v-text-field>
                                     </v-flex>
                                 </v-layout>
                                 <v-layout row class="ma-1">
                                     <v-flex xs12>
                                         <v-text-field v-model="password" :rules="rules.passwordRules" prepend-icon="mdi-lock"
-                                        label="Contraseña" aria-required="true" aria-autocomplete="list" type="password"></v-text-field>
+                                                      :label="$vuetify.lang.t('$vuetify.login.password')" aria-required="true" aria-autocomplete="list" type="password"></v-text-field>
                                     </v-flex>
                                 </v-layout>
                                 <v-layout row class="ma-1">
                                     <v-flex xs12>
                                         <v-btn color="primary" :disabled="!isFormValid||loading" :loading="loading" type="submit">
                                             <span slot="loader" class="custom-loader">
-                                                <v-icon light>mdi-reload</v-icon>
+                                                <v-icon light>mdi-refresh</v-icon>
                                             </span>
-                                            Iniciar Sesión
+                                            {{$vuetify.lang.t('$vuetify.login.login')}}
                                         </v-btn>
                                     </v-flex>
                                 </v-layout>
@@ -58,10 +58,10 @@
                 password:'',
                 rules:{
                     usernameRules:[
-                        (username)=>!!username||"El nombre de usuario es requerido"
+                        (username)=>!!username||this.$vuetify.lang.t("$vuetify.login.usernameRules")
                     ],
                     passwordRules:[
-                        (password)=>!!password||"La contraseña es requerida"
+                        (password)=>!!password||this.$vuetify.lang.t("$vuetify.login.passwordRules")
                     ]
                 }
             }

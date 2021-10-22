@@ -2,6 +2,9 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 
+import en from "../i18n/en.ts";
+import es from "../i18n/es.ts"
+
 Vue.use(Vuetify);
 
 export default new Vuetify({
@@ -18,4 +21,8 @@ export default new Vuetify({
       },
     },
   },
+  lang:{
+    locales:{en,es},
+    current: window.navigator.language.substring(0,2)
+  }
 });
