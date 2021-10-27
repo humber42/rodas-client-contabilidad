@@ -4,7 +4,6 @@ import axios from "axios";
 import {JWT_SECRET_KEY, URL_GET_USER_BY_USERNAME, URL_LOGIN_POST} from "../constants/UrlResource";
 import router from "../router";
 
-
 const jwt = require('jsonwebtoken')
 
 Vue.use(Vuex);
@@ -78,6 +77,7 @@ export default new Vuex.Store({
             const token = localStorage.getItem("token")
             const decode = jwt.decode(token, JWT_SECRET_KEY)
             if (decode === null) {
+                commit('setUser',null);
                 router.push("/login").then(() => console.log("to login")).catch(() => console.log("Duplicated but we go to /login :)"));
             } else {
                 commit("clearError");

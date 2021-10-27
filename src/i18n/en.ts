@@ -12,6 +12,8 @@ export default {
         passwordRules: "Password is required",
         error504: "Wait at least 10 seconds, the servers are slow",
         wrongCredentials: "Credentials are incorrect",
+        placeholderUsername:"Type the username",
+        placeholderPassword:"Type the password"
     },
     appBar:{
         utilities:"Utilities"

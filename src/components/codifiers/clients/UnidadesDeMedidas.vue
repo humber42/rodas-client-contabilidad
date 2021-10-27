@@ -1,178 +1,186 @@
 <template>
     <v-container>
-        <v-layout row wrap>
-            <v-flex>
-                <v-card outlined elevation="20">
-                    <v-card-title class="hidden-md-and-up">Lista de unidades de medida</v-card-title>
-                    <v-skeleton-loader v-if="tableLoading" class="mx-auto" type="table"/>
-                    <v-data-table v-else :headers="headers" :items="unidadesMedida" :items-per-page="5"
-                                  class="elevation-1" :search="search"
-                    >
-                        <template v-slot:top>
-                            <v-toolbar flat>
-                                <v-toolbar-title class="hidden-sm-and-down">Lista de unidades de medida
-                                </v-toolbar-title>
-                                <v-spacer></v-spacer>
-                                <v-text-field v-model="search" append-icon="mdi-magnify" label="Buscar"
-                                              single-line hide-details></v-text-field>
-                                <v-spacer></v-spacer>
-                                <v-btn color="orange" :fab="classButtons" :small="classButtons" @click="loadDataTable"
-                                       dark v-resize="onResizes">
-                                    <v-icon>mdi-refresh</v-icon>
-                                    <span v-if="!classButtons">
+        <v-container>
+            <v-layout row wrap>
+                <v-flex>
+                    <v-card outlined elevation="20">
+                        <v-card-title class="hidden-md-and-up">Lista de unidades de medida</v-card-title>
+                        <v-skeleton-loader v-if="tableLoading" class="mx-auto" type="table"/>
+                        <v-data-table v-else :headers="headers" :items="unidadesMedida" :items-per-page="5"
+                                      class="elevation-1" :search="search"
+                        >
+                            <template v-slot:top>
+                                <v-toolbar flat>
+                                    <v-toolbar-title class="hidden-sm-and-down">Lista de unidades de medida
+                                    </v-toolbar-title>
+                                    <v-spacer></v-spacer>
+                                    <v-text-field v-model="search" append-icon="mdi-magnify" label="Buscar"
+                                                  single-line hide-details></v-text-field>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="orange" :fab="classButtons" :small="classButtons"
+                                           @click="loadDataTable"
+                                           dark v-resize="onResizes">
+                                        <v-icon>mdi-refresh</v-icon>
+                                        <span v-if="!classButtons">
                                          Refrescar
                                     </span>
-                                </v-btn>
-                                <v-btn color="primary" :fab="classButtons" :small="classButtons" class="ml-2"
-                                       @click="openDialogNew=true" v-resize="onResizes">
-                                    <v-icon>mdi-plus</v-icon>
-                                    <span v-if="!classButtons">
+                                    </v-btn>
+                                    <v-btn color="primary" :fab="classButtons" :small="classButtons" class="ml-2"
+                                           @click="openDialogNew=true" v-resize="onResizes">
+                                        <v-icon>mdi-plus</v-icon>
+                                        <span v-if="!classButtons">
                                          Nuevo
                                     </span></v-btn>
-                            </v-toolbar>
-                        </template>
-                        <template v-slot:no-data>
-                            <h3 class="font-weight-thin">No hay datos recuperados</h3>
-                        </template>
-                        <template v-slot:no-results>
-                            <h3 class="font-weight-thin">No hay resultados en la búsqueda</h3>
-                        </template>
-                        <template v-slot:item.actions="{item}">
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{on,attrs}">
-                                    <v-icon v-bind="attrs" v-on="on" class="mr-2" @click="editItem(item)"
-                                            color="orange">
-                                        mdi-pen
-                                    </v-icon>
-                                </template>
-                                <span>Editar unidad de medida</span>
-                            </v-tooltip>
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{on,attrs}">
-                                    <v-icon v-bind="attrs" v-on="on" class="mr-2" @click="dialogOpenDelete(item)"
-                                            color="red">
-                                        mdi-delete
-                                    </v-icon>
-                                </template>
-                                <span>Eliminar unidad de medida</span>
-                            </v-tooltip>
-                        </template>
-                    </v-data-table>
-                </v-card>
-                <v-dialog v-model="openDialogNew" transition="slide-x-transition" persistent
-                          title="Nueva unidad de medida" max-width="520">
-                    <v-card>
-                        <v-card-title>Nueva unidad de medida</v-card-title>
-                        <v-divider></v-divider>
-                        <v-container>
-                            <v-form lazy-validation v-model="isFormValid" ref="formNew"
-                                    @submit.prevent="handleNewMetricsUnit">
-                                <v-layout row class="ma-1">
-                                    <v-flex xs12>
-                                        <v-text-field label="Nombre" v-model="metricUnit.nombre"
-                                                      :rules="rules.nombreRules" counter maxlength="255"></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout row class="ma-1">
-                                    <v-flex xs12>
-                                        <v-text-field label="Código" v-model="metricUnit.codigoUnidadMedida"
-                                                      :rules="rules.codigoRules" counter maxlength="50"></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout row class="ma-1">
-                                    <v-flex xs12>
-                                        <v-textarea auto-grow label="Descripción" v-model="metricUnit.descripcion"
-                                                    :rules="rules.descripcionRules" counter
-                                                    maxlength="255"></v-textarea>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout row class="ma-1 text-right">
-                                    <v-flex>
-                                        <v-btn class="mr-1" color="success" type="submit" :loading="loading"
-                                               :disabled="!isFormValid||loading">
+                                </v-toolbar>
+                            </template>
+                            <template v-slot:no-data>
+                                <h3 class="font-weight-thin">No hay datos recuperados</h3>
+                            </template>
+                            <template v-slot:no-results>
+                                <h3 class="font-weight-thin">No hay resultados en la búsqueda</h3>
+                            </template>
+                            <template v-slot:item.actions="{item}">
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{on,attrs}">
+                                        <v-icon v-bind="attrs" v-on="on" class="mr-2" @click="editItem(item)"
+                                                color="orange">
+                                            mdi-pen
+                                        </v-icon>
+                                    </template>
+                                    <span>Editar unidad de medida</span>
+                                </v-tooltip>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{on,attrs}">
+                                        <v-icon v-bind="attrs" v-on="on" class="mr-2" @click="dialogOpenDelete(item)"
+                                                color="red">
+                                            mdi-delete
+                                        </v-icon>
+                                    </template>
+                                    <span>Eliminar unidad de medida</span>
+                                </v-tooltip>
+                            </template>
+                        </v-data-table>
+                    </v-card>
+                    <v-dialog v-model="openDialogNew" transition="slide-x-transition" persistent
+                              title="Nueva unidad de medida" max-width="520">
+                        <v-card>
+                            <v-card-title>Nueva unidad de medida</v-card-title>
+                            <v-divider></v-divider>
+                            <v-container>
+                                <v-form lazy-validation v-model="isFormValid" ref="formNew"
+                                        @submit.prevent="handleNewMetricsUnit">
+                                    <v-layout row class="ma-1">
+                                        <v-flex xs12>
+                                            <v-text-field label="Nombre" v-model="metricUnit.nombre"
+                                                          :rules="rules.nombreRules" counter
+                                                          maxlength="255"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout row class="ma-1">
+                                        <v-flex xs12>
+                                            <v-text-field label="Código" v-model="metricUnit.codigoUnidadMedida"
+                                                          :rules="rules.codigoRules" counter
+                                                          maxlength="50"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout row class="ma-1">
+                                        <v-flex xs12>
+                                            <v-textarea auto-grow label="Descripción" v-model="metricUnit.descripcion"
+                                                        :rules="rules.descripcionRules" counter
+                                                        maxlength="255"></v-textarea>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout row class="ma-1 text-right">
+                                        <v-flex>
+                                            <v-btn class="mr-1" color="success" type="submit" :loading="loading"
+                                                   :disabled="!isFormValid||loading">
                                                <span slot="loader" class="custom-loader">
                                                    <v-icon>mdi-refresh</v-icon>
                                                </span>
-                                            Aceptar
-                                        </v-btn>
-                                        <v-btn class="ml-1" color="error" @click="handleCancelarNewDialog">Cancelar
-                                        </v-btn>
-                                    </v-flex>
-                                </v-layout>
-                            </v-form>
-                        </v-container>
-                    </v-card>
-                </v-dialog>
-                <v-dialog v-model="openDeleteDialog" persistent max-width="520">
-                    <v-card>
-                        <v-card-title v-if="metricUnitToDelete!==null||metricUnitToDelete.id>0">Eliminar actividad
-                        </v-card-title>
-                        <v-divider></v-divider>
-                        <v-container>
-                            <h3 class="font-weight-light">¿Desea eliminar la unidad de medida con código
-                                {{metricUnitToDelete.codigoUnidadMedida}}?</h3>
-                            <v-layout row class="ma-1 text-center">
-                                <v-flex xs12>
-                                    <v-btn color="success" class="mr-1" @click="handleDeleteMetricUnit"
-                                           :loading="loading" :disabled="loading">
+                                                Aceptar
+                                            </v-btn>
+                                            <v-btn class="ml-1" color="error" @click="handleCancelarNewDialog">Cancelar
+                                            </v-btn>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-form>
+                            </v-container>
+                        </v-card>
+                    </v-dialog>
+                    <v-dialog v-model="openDeleteDialog" persistent max-width="520">
+                        <v-card>
+                            <v-card-title v-if="metricUnitToDelete!==null||metricUnitToDelete.id>0">Eliminar actividad
+                            </v-card-title>
+                            <v-divider></v-divider>
+                            <v-container>
+                                <h3 class="font-weight-light">¿Desea eliminar la unidad de medida con código
+                                    {{metricUnitToDelete.codigoUnidadMedida}}?</h3>
+                                <v-layout row class="ma-1 text-center">
+                                    <v-flex xs12>
+                                        <v-btn color="success" class="mr-1" @click="handleDeleteMetricUnit"
+                                               :loading="loading" :disabled="loading">
                                     <span slot="loader" class="custom-loader">
                                         <v-icon>mdi-refresh</v-icon>
                                     </span>
-                                        Si
-                                    </v-btn>
-                                    <v-btn color="error" class="ml-1" @click="handleCancelarDeleteDialog">No</v-btn>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card>
-                </v-dialog>
-                <v-dialog v-model="openDialogEdit" transition="fade" persistent max-width="520">
-                    <v-card>
-                        <v-card-title v-if="metricUnit!==null||metricUnit.id>0">Editar la unidad de medida con código:
-                            {{metricUnit.codigoUnidadMedida}}
-                        </v-card-title>
-                        <v-divider></v-divider>
-                        <v-container>
-                            <v-form lazy-validation v-model="isFormValid" ref="formEdit"
-                                    @submit.prevent="handleEditMetricsUnit">
-                                <v-layout row class="ma-1">
-                                    <v-flex xs12>
-                                        <v-text-field label="Nombre" v-model="metricUnit.nombre"
-                                                      :rules="rules.nombreRules" counter maxlength="50"></v-text-field>
+                                            Si
+                                        </v-btn>
+                                        <v-btn color="error" class="ml-1" @click="handleCancelarDeleteDialog">No</v-btn>
                                     </v-flex>
                                 </v-layout>
-                                <v-layout row class="ma-1">
-                                    <v-flex xs12>
-                                        <v-text-field label="Código" v-model="metricUnit.codigoUnidadMedida"
-                                                      :rules="rules.codigoRules" counter maxlength="50"></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout row class="ma-1">
-                                    <v-flex xs12>
-                                        <v-textarea auto-grow label="Descripción" v-model="metricUnit.descripcion"
-                                                    :rules="rules.descripcionRules" counter
-                                                    maxlength="250"></v-textarea>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout row class="ma-1 text-right">
-                                    <v-flex>
-                                        <v-btn class="mr-1" color="success" type="submit" :loading="loading"
-                                               :disabled="!isFormValid||loading">
+                            </v-container>
+                        </v-card>
+                    </v-dialog>
+                    <v-dialog v-model="openDialogEdit" transition="fade" persistent max-width="520">
+                        <v-card>
+                            <v-card-title v-if="metricUnit!==null||metricUnit.id>0">Editar la unidad de medida con
+                                código:
+                                {{metricUnit.codigoUnidadMedida}}
+                            </v-card-title>
+                            <v-divider></v-divider>
+                            <v-container>
+                                <v-form lazy-validation v-model="isFormValid" ref="formEdit"
+                                        @submit.prevent="handleEditMetricsUnit">
+                                    <v-layout row class="ma-1">
+                                        <v-flex xs12>
+                                            <v-text-field label="Nombre" v-model="metricUnit.nombre"
+                                                          :rules="rules.nombreRules" counter
+                                                          maxlength="50"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout row class="ma-1">
+                                        <v-flex xs12>
+                                            <v-text-field label="Código" v-model="metricUnit.codigoUnidadMedida"
+                                                          :rules="rules.codigoRules" counter
+                                                          maxlength="50"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout row class="ma-1">
+                                        <v-flex xs12>
+                                            <v-textarea auto-grow label="Descripción" v-model="metricUnit.descripcion"
+                                                        :rules="rules.descripcionRules" counter
+                                                        maxlength="250"></v-textarea>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout row class="ma-1 text-right">
+                                        <v-flex>
+                                            <v-btn class="mr-1" color="success" type="submit" :loading="loading"
+                                                   :disabled="!isFormValid||loading">
                                                <span slot="loader" class="custom-loader">
                                                    <v-icon>mdi-refresh</v-icon>
                                                </span>
-                                            Aceptar
-                                        </v-btn>
-                                        <v-btn class="ml-1" color="error" @click="handleCancelarEditDialog">Cancelar
-                                        </v-btn>
-                                    </v-flex>
-                                </v-layout>
-                            </v-form>
-                        </v-container>
-                    </v-card>
-                </v-dialog>
-            </v-flex>
-        </v-layout>
+                                                Aceptar
+                                            </v-btn>
+                                            <v-btn class="ml-1" color="error" @click="handleCancelarEditDialog">Cancelar
+                                            </v-btn>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-form>
+                            </v-container>
+                        </v-card>
+                    </v-dialog>
+                </v-flex>
+            </v-layout>
+        </v-container>
     </v-container>
 </template>
 

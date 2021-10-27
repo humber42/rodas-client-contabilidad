@@ -4,26 +4,26 @@
             <v-toolbar dark color="primary">
                 <v-toolbar-title class="font-weight-thin">
                     <v-icon style="margin-top: -6px">mdi-calculator</v-icon>
-                    Rodas Costos
+                    <router-link to="/" tag="button">
+                        Rodas Costos
+                    </router-link>
                 </v-toolbar-title>
             </v-toolbar>
             <v-list dense>
-                    <v-list-group :value="false" v-for="group in itemsGroup" :key="group.title" :prepend-icon="group.icon">
-                        <template v-slot:activator>
-                            <v-list-item-title>{{group.title}}</v-list-item-title>
-                        </template>
-                        <v-list-item v-for="item in group.items" :key="item.title" link :to="item.link">
-                            <v-list-item-icon>
-                                <v-icon>{{item.icon}}</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content >
-                                <v-list-item-title>{{item.title}}</v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list-group>
-
+                <v-list-group :value="false" v-for="group in itemsGroup" :key="group.title" :prepend-icon="group.icon">
+                    <template v-slot:activator>
+                        <v-list-item-title>{{group.title}}</v-list-item-title>
+                    </template>
+                    <v-list-item v-for="item in group.items" :key="item.title" link :to="item.link">
+                        <v-list-item-icon>
+                            <v-icon>{{item.icon}}</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>{{item.title}}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list-group>
             </v-list>
-
         </v-navigation-drawer>
 
         <!--        Barra de arriba-->
@@ -41,59 +41,14 @@
                     </v-btn>
                 </template>
                 <v-list dense>
-                    <v-list-item link to="/activity-type">
-                        <v-list-item-title>Tipos de actividades</v-list-item-title>
+                <v-virtual-scroll height="450" width="250" item-height="40" :items="clasificadoresMenu">
+                    <template v-slot:default="{item}">
+                    <v-list-item :key="item.to" link :to="item.to">
+                        <v-list-item-title>{{item.title}}</v-list-item-title>
                     </v-list-item>
-                    <v-list-item link to="/activity">
-                        <v-list-item-title>Actividades</v-list-item-title>
-                    </v-list-item>
-                    <v-divider></v-divider>
-                    <v-list-item link to="/direct-spend-type">
-                        <v-list-item-title>Tipos de gastos directos</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item link to="/direct-spend">
-                        <v-list-item-title>Gastos directos</v-list-item-title>
-                    </v-list-item>
-                    <v-divider/>
-                    <v-list-item link to="/indirect-spend-type">
-                        <v-list-item-title>Tipos de gastos indirectos</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item link to="/indirect-spend">
-                        <v-list-item-title>Gastos indirectos</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item link to="/coeficientes">
-                        <v-list-item-title>Coeficientes</v-list-item-title>
-                    </v-list-item>
-                    <v-divider/>
-                    <v-list-item link to="/agrupation-category">
-                        <v-list-item-title>Categorías de agrupación</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item link to="/element-spend">
-                        <v-list-item-title>Elementos de gasto</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item link to="/subelement-spend">
-                        <v-list-item-title>Subelementos de gasto</v-list-item-title>
-                    </v-list-item>
-                    <v-divider/>
-                    <v-list-item link to="/charge">
-                        <v-list-item-title>Cargos</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item link to="/steps">
-                        <v-list-item-title>Etapas</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item link to="/uebs">
-                        <v-list-item-title>Unidades Empresariales de Base</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item link to="/authorized-persons">
-                        <v-list-item-title>Personas autorizadas</v-list-item-title>
-                    </v-list-item>
-                    <v-divider></v-divider>
-                    <v-list-item link to="/clients">
-                        <v-list-item-title>Clientes</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item link to="/metrics">
-                        <v-list-item-title>Unidades de medida</v-list-item-title>
-                    </v-list-item>
+                    <v-divider v-if="item.divider"></v-divider>
+                    </template>
+                </v-virtual-scroll>
                 </v-list>
             </v-menu>
             <v-menu offset-y fixed allow-overflow>
@@ -131,7 +86,9 @@
             </v-menu>
             <v-menu offset-y fixed allow-overflow>
                 <template v-slot:activator="{on,attrs}">
-                    <v-btn dark text v-bind="attrs" v-on="on" class="hidden-sm-and-down">{{$vuetify.lang.t('$vuetify.appBar.utilities')}}</v-btn>
+                    <v-btn dark text v-bind="attrs" v-on="on" class="hidden-sm-and-down">
+                        {{$vuetify.lang.t('$vuetify.appBar.utilities')}}
+                    </v-btn>
                 </template>
                 <v-list dense>
                     <v-list-item to="/configuration">
@@ -163,12 +120,18 @@
                     <v-divider></v-divider>
                     <v-list-item>
                         <v-list-item-content>
-                            <v-btn text @click="toSpanish"><v-icon color="red" class="mdi mdi-flag" left>mdi-</v-icon>Español</v-btn>
+                            <v-btn text @click="toSpanish">
+                                <v-icon color="red" class="mdi mdi-flag" left>mdi-</v-icon>
+                                Español
+                            </v-btn>
                         </v-list-item-content>
                     </v-list-item>
                     <v-list-item>
                         <v-list-item-content>
-                            <v-btn text @click="toEnglish"><v-icon color="blue" left>mdi-flag</v-icon>English</v-btn>
+                            <v-btn text @click="toEnglish">
+                                <v-icon color="blue" left>mdi-flag</v-icon>
+                                English
+                            </v-btn>
                         </v-list-item-content>
                     </v-list-item>
                 </v-list>
@@ -176,18 +139,18 @@
             <v-btn icon>
                 <v-icon>mdi-shield-account</v-icon>
             </v-btn>
-            <v-btn  icon @click="logout">
+            <v-btn icon @click="logout">
                 <v-icon>mdi-key</v-icon>
             </v-btn>
 
         </v-app-bar>
 
-        <v-main>
-            <v-container>
-                <transition name="fade">
-                    <router-view/>
-                </transition>
-            </v-container>
+        <v-main :class="user===null?'div-background':''">
+
+            <transition name="fade">
+                <router-view/>
+            </transition>
+
         </v-main>
     </v-app>
 </template>
@@ -205,6 +168,25 @@
                     {title: "Ficha de costo", to: "/cost-sheet"},
                     {title: "Plan Producción", to: "/production-plan"},
                     {title: "Presupuesto", to: "/budget"}
+                ],
+                clasificadoresMenu:[
+                     {title:"Tipos de actividades",to:"/activity-type",divider:false},
+                     {title:"Actividades",to:"/activity",divider:true},
+                     {title:"Tipos de gastos directos",to:"/direct-spend-type",divider:false},
+                     {title:"Gastos directos",to:"/direct-spend",divider:true},
+                     {title:"Tipos de gastos indirectos",to:"/indirect-spend-type",divider:false},
+                     {title:"Gastos indirectos",to:"/indirect-spend",divider:false},
+                     {title:"Coeficientes",to:"/coeficientes",divider:true},
+                     {title:"Categorías de agrupación",to:"/agrupation-category",divider:false},
+                     {title:"Elementos de gasto",to:"/element-spend",divider:false},
+                     {title:"Subelementos de gasto",to:"/subelement-spend",divider:true},
+                     {title:"Cargos",to:"/charge",divider:false},
+                     {title:"Etapas",to:"/steps",divider:false},
+                     {title:"Unidades Empresariales de Base",to:"/uebs",divider:false},
+                     {title:"Personas autorizadas",to:"/authorized-persons",divider:true},
+                     {title:"Clientes",to:"/clients",divider:false},
+                     {title:"Unidades de medida",to:"/metrics",divider:false},
+
                 ]
             }
         }
@@ -213,92 +195,96 @@
             logout() {
                 this.$store.dispatch('logoutUser')
             },
-            toSpanish(){
-                this.$vuetify.lang.current='es';
+            toSpanish() {
+                this.$vuetify.lang.current = 'es';
             },
-            toEnglish(){
-                this.$vuetify.lang.current='en';
+            toEnglish() {
+                this.$vuetify.lang.current = 'en';
             }
         },
         computed: {
             ...mapGetters(["user"]),
-          itemsGroup(){
-              let items=[];
+            itemsGroup() {
+                let items = [];
 
-              const codificadores ={
-                title:"Codificadores",
-                icon:"mdi-newspaper-variant-outline",
-                items:[
-                  {title:"Tipo de actividades",link:"/activity-type",icon:""},
-                  {title:"Actividades",link:"/activity",icon:""},
-                  {title:"Tipos de gastos directos",link:"/direct-spend-type",icon:""},
-                  {title:"Gastos directos",link:"/direct-spend",icon:""},
-                  {title:"Tipos de gastos indirectos",link:"/indirect-spend-type",icon:""},
-                  {title:"Gastos indirectos",link:"/indirect-spend",icon:""},
-                  {title:"Coeficientes",link:"/coeficientes",icon:""},
-                  {title:"Categorías de agrupación",link:"/agrupation-category",icon:""},
-                  {title:"Elementos de gasto",link:"/element-spend",icon:""},
-                  {title:"Subelementos de gasto",link:"/subelement-spend",icon:""},
-                  {title:"Cargos",link:"/charge",icon:""},
-                  {title:"Etapas",link:"/steps",icon:""},
-                  {title:"Unidades Empresariales de Base",link:"/uebs",icon:""},
-                  {title:"Personas autorizadas",link:"/authorized-persons",icon:""},
-                  {title:"Clientes",link:"/clients",icon:""},
-                  {title:"Unidades de medida",link:"/metrics",icon:""},
-                ]
-              };
+                const codificadores = {
+                    title: "Codificadores",
+                    icon: "mdi-newspaper-variant-outline",
+                    items: [
+                        {title: "Tipo de actividades", link: "/activity-type", icon: ""},
+                        {title: "Actividades", link: "/activity", icon: ""},
+                        {title: "Tipos de gastos directos", link: "/direct-spend-type", icon: ""},
+                        {title: "Gastos directos", link: "/direct-spend", icon: ""},
+                        {title: "Tipos de gastos indirectos", link: "/indirect-spend-type", icon: ""},
+                        {title: "Gastos indirectos", link: "/indirect-spend", icon: ""},
+                        {title: "Coeficientes", link: "/coeficientes", icon: ""},
+                        {title: "Categorías de agrupación", link: "/agrupation-category", icon: ""},
+                        {title: "Elementos de gasto", link: "/element-spend", icon: ""},
+                        {title: "Subelementos de gasto", link: "/subelement-spend", icon: ""},
+                        {title: "Cargos", link: "/charge", icon: ""},
+                        {title: "Etapas", link: "/steps", icon: ""},
+                        {title: "Unidades Empresariales de Base", link: "/uebs", icon: ""},
+                        {title: "Personas autorizadas", link: "/authorized-persons", icon: ""},
+                        {title: "Clientes", link: "/clients", icon: ""},
+                        {title: "Unidades de medida", link: "/metrics", icon: ""},
+                    ]
+                };
 
-              const process ={
-                  title:"Procesos",
-                  icon:"mdi-state-machine",
-                  items:[
-                      {title:"Planificación",link:"/planification",icon:""},
-                      {title:"Cálculo",link:"/calculate",icon:""},
-                  ]
-              }
+                const process = {
+                    title: "Procesos",
+                    icon: "mdi-state-machine",
+                    items: [
+                        {title: "Planificación", link: "/planification", icon: ""},
+                        {title: "Cálculo", link: "/calculate", icon: ""},
+                    ]
+                }
 
-              const ordenes={
-                  title:"Órdenes",
-                  icon:"mdi-book-open-page-variant",
-                  items:[
-                      {title:"Órdenes de trabajo",link:"/work-order",icon:""},
-                      {title:"Ficha de costo",link:"/cost-sheet",icon:""},
-                      {title: "Plan Producción", link: "/production-plan",icon:""},
-                      {title: "Presupuesto", link: "/budget",icon:""}
-                  ]
-              };
+                const ordenes = {
+                    title: "Órdenes",
+                    icon: "mdi-book-open-page-variant",
+                    items: [
+                        {title: "Órdenes de trabajo", link: "/work-order", icon: ""},
+                        {title: "Ficha de costo", link: "/cost-sheet", icon: ""},
+                        {title: "Plan Producción", link: "/production-plan", icon: ""},
+                        {title: "Presupuesto", link: "/budget", icon: ""}
+                    ]
+                };
 
-              const informes={
-                  title:"Informes",
-                  icon:"mdi-chart-scatter-plot",
-                  items:[
-                      {title:"Informe 1",link:"/inform1",icon:"mdi-chart-donut"},
-                  ]
-              };
+                const informes = {
+                    title: "Informes",
+                    icon: "mdi-chart-scatter-plot",
+                    items: [
+                        {title: "Informe 1", link: "/inform1", icon: "mdi-chart-donut"},
+                    ]
+                };
 
-              const utilidades={
-                  title:"Utilidades",
-                  icon:"mdi-cog-outline",
-                  items:[
-                      {title:"Configurar Sistema",link:"/configuration",icon:"mdi-tune"},
-                      {title:"Importar datos",link:"/import-data-from-old-version",icon:"mdi-database-import-outline"},
-                  ]
-              }
+                const utilidades = {
+                    title: "Utilidades",
+                    icon: "mdi-cog-outline",
+                    items: [
+                        {title: "Configurar Sistema", link: "/configuration", icon: "mdi-tune"},
+                        {
+                            title: "Importar datos",
+                            link: "/import-data-from-old-version",
+                            icon: "mdi-database-import-outline"
+                        },
+                    ]
+                }
 
-              items.push(codificadores);
-              items.push(ordenes);
-              items.push(process);
-              items.push(informes);
-              items.push(utilidades);
-              return items;
-          }
+                items.push(codificadores);
+                items.push(ordenes);
+                items.push(process);
+                items.push(informes);
+                items.push(utilidades);
+                return items;
+            }
         },
         created() {
 
         },
-        watch:{
-            user(value){
-                this.$vuetify.lang.current=value.lang;
+        watch: {
+            user(value) {
+                this.$vuetify.lang.current = value.lang;
             }
         }
 

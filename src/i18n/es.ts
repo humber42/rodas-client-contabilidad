@@ -12,6 +12,8 @@ export default {
         passwordRules: "La contraseña es requerida",
         error504: "Espere 10 segundos los servidores se están demorando en responder",
         wrongCredentials: "Credeenciales incorrectas",
+        placeholderUsername:"Introduzca el usuario",
+        placeholderPassword:"Introduzca su contraseña"
     },
     appBar:{
         utilities:"Utilidades"

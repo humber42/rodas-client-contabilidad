@@ -8,6 +8,7 @@ import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "@mdi/font/css/materialdesignicons.css";
 import "./assets/animation.css";
 import "./assets/styles.css"
+import "./assets/login-style.css"
 
 Vue.config.productionTip = false;
 

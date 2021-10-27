@@ -1,0 +1,17 @@
+.div-background{
+    background: url("/estadistica-descriptiva-e-inferencial.jpg");
+    background-size: cover;
+    min-height: 100vh;
+    background-attachment: fixed;
+}
+
+.div-login{
+    border:1px solid #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 1rem 0 rgba(0,0,0,0.2);
+    overflow: hidden;
+    position: relative;
+    height: 720px;
+    background-color: rgba(254, 255, 252, 0.71);
+}
+

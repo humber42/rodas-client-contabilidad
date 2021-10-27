@@ -1,5 +1,6 @@
 <template>
     <v-container>
+    <v-container class="mt-2">
         <v-layout row wrap>
             <v-flex>
                 <v-card outlined elevation="20">
@@ -195,6 +196,7 @@
                 </v-dialog>
             </v-flex>
         </v-layout>
+    </v-container>
     </v-container>
 </template>
 
