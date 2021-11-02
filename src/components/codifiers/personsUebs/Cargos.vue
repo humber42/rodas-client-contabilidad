@@ -385,7 +385,7 @@
             },
             handleCancelarDeleteDialog() {
                 this.openDeleteDialog = false;
-                this.spendElementToDelete = {};
+                this.chargesToDelete = {};
             },
             handleEditCharge(){
                 if (this.$refs.formEdit.validate()) {

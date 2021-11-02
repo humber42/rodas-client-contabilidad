@@ -280,7 +280,7 @@
             },
             handleCancelarDeleteDialog() {
                 this.openDeleteDialog = false;
-                this.typeGastoToDelete = {};
+                this.clientToDelete = {};
             },
             handleEditClient() {
                 if (this.$refs.formEdit.validate()) {

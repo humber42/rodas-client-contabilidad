@@ -328,7 +328,7 @@
             },
             handleCancelarDeleteDialog() {
                 this.openDeleteDialog = false;
-                this.spendElementToDelete = {};
+                this.etapaToDelete = {};
             },
             handleEditEtapa(){
                 if (this.$refs.formEdit.validate()) {

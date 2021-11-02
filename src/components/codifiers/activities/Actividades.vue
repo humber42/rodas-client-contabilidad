@@ -360,7 +360,7 @@
             },
             handleCancelarDeleteDialog() {
                 this.openDeleteDialog = false;
-                this.typeActivityToDelete = {};
+                this.actividadToDelete = {};
             },
             loadUnidadesMedida() {
                 const token = localStorage.getItem("token");

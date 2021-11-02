@@ -6,6 +6,7 @@ const SERVER_HOST = "http://192.168.137.1:8084";
  **/
 export const URL_LOGIN_POST= SERVER_HOST+"/login-service/api/login";
 export const URL_GET_USER_BY_USERNAME= SERVER_HOST+"/user-service/api/user/fetch-user/";
+export const URL_GET_ALL_USERS= SERVER_HOST+"/user-service/api/user/fetch-all-users";
 
 //Tipo actividad
 export const URL_GET_ALL_TIPO_ACTIVIDAD= SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/tipo-actividad/all";
@@ -78,3 +79,16 @@ export  const URL_GET_ALL_CLIENTE = SERVER_HOST+"/rodas-costos/api/v1/rodas-cost
 export  const URL_SAVE_CLIENTE  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/cliente/save";
 export  const URL_DELETE_CLIENTE  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/cliente/delete/id/";
 export  const URL_UPDATE_CLIENTE  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/cliente/update";
+
+//UEB
+export  const URL_GET_ALL_UEB = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/ueb/all";
+export  const URL_SAVE_UEB  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/ueb/save";
+export  const URL_DELETE_UEB  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/ueb/delete/id/";
+export  const URL_UPDATE_UEB  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/ueb/update";
+
+//Personas autorizadas
+export  const URL_GET_ALL_PERSONA_AUTORIZADA = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/persona-autorizada/all";
+export  const URL_SAVE_PERSONA_AUTORIZADA  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/persona-autorizada/save";
+export  const URL_DELETE_PERSONA_AUTORIZADA  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/persona-autorizada/delete/id/";
+export  const URL_UPDATE_PERSONA_AUTORIZADA  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/persona-autorizada/update";
+

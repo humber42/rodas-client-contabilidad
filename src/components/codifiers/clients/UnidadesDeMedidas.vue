@@ -321,7 +321,6 @@
                     codigoUnidadMedida: '',
                     nombre: '',
                     descripcion: ''
-
                 };
             },
             handleEditMetricsUnit() {

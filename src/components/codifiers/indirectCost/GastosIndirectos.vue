@@ -373,7 +373,7 @@
             },
             handleCancelarDeleteDialog() {
                 this.openDeleteDialog = false;
-                this.spendElementToDelete = {};
+                this.indirectCostToDelete= {};
             },
             handleEditIndirectCost(){
                 if (this.$refs.formEdit.validate()) {

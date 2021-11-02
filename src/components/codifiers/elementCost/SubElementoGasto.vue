@@ -403,7 +403,7 @@
             },
             handleCancelarDeleteDialog() {
                 this.openDeleteDialog = false;
-                this.spendElementToDelete = {};
+                this.spendSubelementToDelete = {};
             },
             handleEditSpendSubelement(){
                 if (this.$refs.formEdit.validate()) {

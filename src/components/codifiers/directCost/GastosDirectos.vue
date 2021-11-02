@@ -475,7 +475,7 @@
             },
             handleCancelarDeleteDialog() {
                 this.openDeleteDialog = false;
-                this.spendElementToDelete = {};
+                this.directCostToDelete = {};
             },
             handleEditDirectCost(){
                 if (this.$refs.formEdit.validate()) {
