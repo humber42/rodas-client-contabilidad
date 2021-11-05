@@ -4,14 +4,14 @@
             <v-layout row wrap>
                 <v-flex>
                     <v-card outlined elevation="20">
-                        <v-card-title class="hidden-md-and-up">Lista de Personas Autorizadas</v-card-title>
+                        <v-card-title class="hidden-md-and-up">Lista de Trabajadores</v-card-title>
                         <v-skeleton-loader v-if="tableLoading" class="mx-auto" type="table"/>
-                        <v-data-table v-else :headers="headers" :items="personasList" :items-per-page="5"
+                        <v-data-table v-else :headers="headers" :items="trabajadoresList" :items-per-page="5"
                                       class="elevation-1" :search="search"
                         >
                             <template v-slot:top>
                                 <v-toolbar flat>
-                                    <v-toolbar-title class="hidden-sm-and-down">Lista de Personas Autorizadas
+                                    <v-toolbar-title class="hidden-sm-and-down">Lista de Trabajadores
                                     </v-toolbar-title>
                                     <v-spacer></v-spacer>
                                     <v-text-field v-model="search" append-icon="mdi-magnify" label="Buscar"
@@ -41,7 +41,7 @@
                                             mdi-pen
                                         </v-icon>
                                     </template>
-                                    <span>Editar persona autorizada</span>
+                                    <span>Editar trabajador</span>
                                 </v-tooltip>
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{on,attrs}">
@@ -51,31 +51,39 @@
                                             mdi-delete
                                         </v-icon>
                                     </template>
-                                    <span>Eliminar persona autorizada</span>
+                                    <span>Eliminar trabajador</span>
                                 </v-tooltip>
                             </template>
                         </v-data-table>
                     </v-card>
-                    <v-dialog v-model="openDialogNew" transition="fade" persistent title="Nueva persona autorizada"
+                    <v-dialog v-model="openDialogNew" transition="fade" persistent title="Nuevo trabajador"
                               max-width="520">
                         <v-card>
-                            <v-card-title>Nueva persona autorizada</v-card-title>
+                            <v-card-title>Nuevo trabajador</v-card-title>
                             <v-divider></v-divider>
                             <v-container>
                                 <v-form lazy-validation v-model="isFormValid" ref="formNew"
-                                        @submit.prevent="handleNewPersonaAutorizada">
+                                        @submit.prevent="handleNewTrabajador">
                                     <v-layout row class="ma-1">
                                         <v-flex xs12>
-                                            <v-combobox :items="usuariosList" :rules="rules.usuario" hide-selected
-                                                        label="Usuario" item-text="fullname" item-value="id" :search-input="searchUser"
-                                                        v-model="personaAutorizada.usuario"></v-combobox>
+                                            <v-text-field type="text" v-model="trabajador.nombre"
+                                                          label="Nombre del trabajador" :rules="rules.nombre"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout row class="ma-1">
+                                        <v-flex xs12>
+                                            <v-combobox :items="uebsList" :rules="rules.ueb" hide-selected
+                                                        label="Seleccione la UEB" item-text="nombreUeb" item-value="id"
+                                                        :search-input="searchUeb"
+                                                        v-model="trabajador.ueb"></v-combobox>
                                         </v-flex>
                                     </v-layout>
                                     <v-layout row class="ma-1">
                                         <v-flex xs12>
                                             <v-combobox :items="cargosList" :rules="rules.cargo" hide-selected
-                                                        label="Cargo" item-text="nombre" item-value="id" :search-input="searchCargo"
-                                                        v-model="personaAutorizada.cargoDto"></v-combobox>
+                                                        label="Cargo" item-text="nombre" item-value="id"
+                                                        :search-input="searchCargo"
+                                                        v-model="trabajador.cargoDto"></v-combobox>
                                         </v-flex>
                                     </v-layout>
                                     <v-layout row class="ma-1 text-right">
@@ -98,17 +106,17 @@
                     </v-dialog>
                     <v-dialog v-model="openDeleteDialog" persistent max-width="520">
                         <v-card>
-                            <v-card-title v-if="personaToDelete!==null||personaToDelete.id>0">Eliminar
-                                persona autorizada
+                            <v-card-title v-if="trabajadorToDelete!==null||trabajadorToDelete.id>0">Eliminar
+                                trabajador
                             </v-card-title>
                             <v-divider></v-divider>
-                            <v-container v-if="personaToDelete!==null||personaToDelete.id>0">
+                            <v-container v-if="trabajadorToDelete!==null||trabajadorToDelete.id>0">
 
-                                <h3 class="font-weight-light">¿Desea eliminar la persona autorizada con nombre
-                                    {{personaToDelete.usuario.fullname}}?</h3>
+                                <h3 class="font-weight-light">¿Desea eliminar el trabajador con nombre
+                                    {{trabajadorToDelete.nombre}}?</h3>
                                 <v-layout row class="ma-1 text-center">
                                     <v-flex xs12>
-                                        <v-btn color="success" class="mr-1" @click="handleDeletePersonaAutorizada"
+                                        <v-btn color="success" class="mr-1" @click="handleDeleteTrabajador"
                                                :loading="loading"
                                                :disabled="loading">
                                     <span slot="loader" class="custom-loader">
@@ -125,18 +133,34 @@
                     </v-dialog>
                     <v-dialog v-model="openDialogEdit" transition="fade" persistent max-width="520">
                         <v-card>
-                            <v-card-title v-if="personaToEdit!==null||personaToEdit.id>0">Editar persona autorizada con nombre
-                                {{personaToEdit.usuario.fullname}}
+                            <v-card-title v-if="trabajadorToEdit!==null||trabajadorToEdit.id>0">Editar trabajador con
+                                nombre
+                                {{trabajadorToEdit.nombre}}
                             </v-card-title>
                             <v-divider></v-divider>
                             <v-container>
                                 <v-form lazy-validation v-model="isFormValid" ref="formEdit"
-                                        @submit.prevent="handleEditPersonaAutorizada">
+                                        @submit.prevent="handleEditTrabajador">
+                                    <v-layout row class="ma-1">
+                                        <v-flex xs12>
+                                            <v-text-field type="text" v-model="trabajadorToEdit.nombre"
+                                                          label="Nombre del trabajador" :rules="rules.nombre"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout row class="ma-1">
+                                        <v-flex xs12>
+                                            <v-combobox :items="uebsList" :rules="rules.ueb" hide-selected
+                                                        label="Seleccione la UEB" item-text="nombreUeb" item-value="id"
+                                                        :search-input="searchUeb"
+                                                        v-model="trabajadorToEdit.ueb"></v-combobox>
+                                        </v-flex>
+                                    </v-layout>
                                     <v-layout row class="ma-1">
                                         <v-flex xs12>
                                             <v-combobox :items="cargosList" :rules="rules.cargo" hide-selected
-                                                        label="Cargo" item-text="nombre" item-value="id" :search-input="searchCargo"
-                                                        v-model="personaToEdit.cargoDto"></v-combobox>
+                                                        label="Cargo" item-text="nombre" item-value="id"
+                                                        :search-input="searchCargo"
+                                                        v-model="trabajadorToEdit.cargoDto"></v-combobox>
                                         </v-flex>
                                     </v-layout>
                                     <v-layout row class="ma-1 text-right">
@@ -166,101 +190,93 @@
 <script>
     import axios from "axios";
     import {
-        URL_DELETE_PERSONA_AUTORIZADA,
+        URL_DELETE_TRABAJADOR,
         URL_GET_ALL_CARGOS,
-        URL_GET_ALL_PERSONA_AUTORIZADA,
-        URL_GET_ALL_USERS, URL_SAVE_PERSONA_AUTORIZADA, URL_UPDATE_PERSONA_AUTORIZADA
+        URL_GET_ALL_TRABAJDOR, URL_GET_ALL_UEB,
+        URL_SAVE_TRABAJADOR, URL_UPDATE_TRABAJADOR
     } from "../../../constants/UrlResource";
 
     export default {
-        name: "PersonasAutorizadas",
-        data(){
-            return{
+        name: "Trabajador",
+        data: () => {
+            return {
                 tableLoading: false,
                 loading: false,
                 classButtons: '',
-                personasList:[],
-                usuariosList:[],
-                cargosList:[],
-                headers:[
-                    {text: "Nombre", value: "usuario.fullname", align: 'center'},
+                cargosList: [],
+                uebsList: [],
+                trabajadoresList: [],
+                headers: [
+                    {text: "Nombre", value: "nombre", align: 'center'},
+                    {text: "UEB", value: "ueb.nombreUeb", align: 'center'},
                     {text: "Cargo", value: "cargoDto.nombre", align: 'center'},
-                    {text: "Correo", value: "usuario.email", align: 'center'},
                     {text: "Acciones", value: "actions", align: 'center'}
                 ],
-                search:'',
+                search: '',
                 openDialogNew: false,
                 openDeleteDialog: false,
                 openDialogEdit: false,
                 isFormValid: true,
-                personaAutorizada:{
+                trabajador: {
                     id: 0,
-                    idUsuario: 0,
+                    nombre: "",
                     idCargo: 0,
-                    usuario:null,
-                    cargoDto:null,
+                    idUeb: 0,
+                    ueb: null,
+                    cargoDto: null,
+                    reporteDiarioLaboralList: []
                 },
-                searchUser:'',
-                searchCargo:'',
-                personaToDelete:{
-                    id: 0,
-                    idUsuario: 0,
-                    idCargo: 0,
-                    usuario: {
-                        fullname:""
-                    },
-                    cargoDto:null,
-                },
-                personaToEdit: {
-                    id: 0,
-                    idUsuario: 0,
-                    idCargo: 0,
-                    usuario: {
-                        fullname:""
-                    },
-                    cargoDto:null,
-                },
+                trabajadorToDelete:{},
+                trabajadorToEdit:{},
+                searchCargo: '',
+                searchUeb:'',
                 rules:{
-                    usuario: [
-                        (usuario) => !!usuario || "El usuario es requerido"
+                    nombre: [
+                        (nombre) => !!nombre || "El nombre es requerido"
                     ],
                     cargo: [
                         (cargo) => !!cargo || "El cargo es requerida"
                     ],
+                    ueb:[
+                        (ueb)=>!!ueb||"La UEB es requerida"
+                    ]
                 }
             }
         },
         methods:{
             editItem(item){
-                this.personaToEdit.id=item.id;
-                this.personaToEdit.idUsuario=item.idUsuario;
-                this.personaToEdit.idCargo=item.idCargo;
-                this.personaToEdit.usuario=item.usuario;
-                this.personaToEdit.cargoDto=item.cargoDto;
-                this.loadAllCargos()
+                this.trabajadorToEdit.id=item.id;
+                this.trabajadorToEdit.nombre=item.nombre;
+                this.trabajadorToEdit.idCargo=item.idCargo;
+                this.trabajadorToEdit.idUeb=item.idUeb;
+                this.trabajadorToEdit.cargoDto=item.cargoDto;
+                this.trabajadorToEdit.ueb=item.ueb;
+                this.trabajadorToEdit.reporteDiarioLaboralList=item.reporteDiarioLaboralList;
+                this.loadAllCargos();
+                this.loadAllUebs();
                 this.openDialogEdit=true;
             },
             dialogOpenDelete(item){
-                this.personaToDelete=item;
+                this.trabajadorToDelete=item;
                 this.openDeleteDialog=true;
             },
             openDialogoNew(){
-                this.loadAllUsers()
+                this.loadAllUebs()
                 this.loadAllCargos();
                 this.openDialogNew=true;
             },
             loadDataTable(){
                 this.tableLoading=true;
                 const token = localStorage.getItem("token");
-                axios.get(URL_GET_ALL_PERSONA_AUTORIZADA, {
+                axios.get(URL_GET_ALL_TRABAJDOR, {
                     headers: {
                         "Authorization": "Bearer " + token,
                         "cache-control": "no-cache",
                     }
                 }).then(({data}) => {
                     this.tableLoading = false;
-                    console.log("Persona Autorizada", data);
-                    this.personasList = data;
+                    console.log("Trabajador", data);
+                    this.trabajadoresList = data;
                 }).catch(err => {
                     console.log(err);
                     if (err.response.status === 403) {
@@ -269,16 +285,17 @@
                     }
                 })
             },
-            handleNewPersonaAutorizada(){
+            handleNewTrabajador(){
                 if (this.$refs.formNew.validate()) {
                     this.loading = true;
                     const payload = {
-                        id: 0,
-                        idCargo: this.personaAutorizada.cargoDto.id,
-                        idUsuario: this.personaAutorizada.usuario.id
+                        "id": 0,
+                        "idCargo": this.trabajador.cargoDto.id,
+                        "idUeb": this.trabajador.ueb.id,
+                        "nombre": this.trabajador.nombre
                     }
                     const token = localStorage.getItem('token');
-                    axios.post(URL_SAVE_PERSONA_AUTORIZADA, payload, {
+                    axios.post(URL_SAVE_TRABAJADOR, payload, {
                         headers: {
                             "Authorization": "Bearer " + token,
                             "cache-control": "no-cache",
@@ -286,7 +303,7 @@
                     }).then(({data}) => {
                         this.loading = false;
                         console.log(data)
-                        this.personasList.push(data);
+                        this.trabajadoresList.push(data);
                         this.handleCancelarNewDialog()
                     }).catch(err => {
                         this.loading = false;
@@ -298,10 +315,10 @@
                 this.$refs.formNew.reset();
                 this.openDialogNew = false;
             },
-            handleDeletePersonaAutorizada(){
+            handleDeleteTrabajador(){
                 this.loading = true;
                 const token = localStorage.getItem("token");
-                axios.delete( URL_DELETE_PERSONA_AUTORIZADA+ this.personaToDelete.id, {
+                axios.delete( URL_DELETE_TRABAJADOR+ this.trabajadorToDelete.id, {
                     headers: {
                         "Authorization": "Bearer " + token,
                         "cache-control": "no-cache",
@@ -317,22 +334,15 @@
             },
             handleCancelarDeleteDialog() {
                 this.openDeleteDialog = false;
-                this.personaToDelete = {
-                    id: 0,
-                    idUsuario: 0,
-                    idCargo: 0,
-                    usuario: {
-                        fullname:""
-                    },
-                    cargoDto:null,
-                };
+                this.spendElementToDelete = {};
             },
-            handleEditPersonaAutorizada(){
+            handleEditTrabajador(){
                 if (this.$refs.formEdit.validate()) {
                     this.loading = true;
                     const token = localStorage.getItem("token");
-                    this.personaToEdit.idCargo = this.personaToEdit.cargoDto.id;
-                    axios.put(URL_UPDATE_PERSONA_AUTORIZADA, this.personaToEdit, {
+                    this.trabajadorToEdit.idCargo = this.trabajadorToEdit.cargoDto.id;
+                    this.trabajadorToEdit.idUeb = this.trabajadorToEdit.ueb.id
+                    axios.put(URL_UPDATE_TRABAJADOR, this.trabajadorToEdit, {
                         headers: {
                             "Authorization": "Bearer " + token,
                             "cache-control": "no-cache",
@@ -378,16 +388,16 @@
                     }
                 })
             },
-            loadAllUsers(){
-                const token = localStorage.getItem('token')
-                axios.get(URL_GET_ALL_USERS, {
+            loadAllUebs(){
+                const token = localStorage.getItem("token");
+                axios.get(URL_GET_ALL_UEB, {
                     headers: {
                         "Authorization": "Bearer " + token,
                         "cache-control": "no-cache",
                     }
                 }).then(({data}) => {
-                    console.log("Usuarios", data);
-                    this.usuariosList = data;
+                    console.log("Uebs", data);
+                    this.uebsList = data;
                 }).catch(err => {
                     console.log(err);
                     if (err.response.status === 403) {

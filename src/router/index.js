@@ -27,6 +27,7 @@ import Calculo from "../components/process/Calculo";
 import Informe1 from "../components/reports/Informe1";
 import ConfiguracionSistema from "../components/utilities/ConfiguracionSistema";
 import ImportarDatosVersionAnterior from "../components/utilities/ImportarDatosVersionAnterior";
+import Trabajador from "../components/codifiers/personsUebs/Trabajador";
 
 
 Vue.use(VueRouter);
@@ -165,6 +166,11 @@ const routes = [
     path: "/import-data-from-old-version",
     name: "ImportarDatosVersionAnterior",
     component: ImportarDatosVersionAnterior
+  },
+  {
+    path: "/worker",
+    name: "Trabajador",
+    component: Trabajador
   }
 ];
 

@@ -1,6 +1,6 @@
 //Projects urls
 export const JWT_SECRET_KEY = "QsbjabKbkbKjsdays89sdskdnasnSSUasndasndP";
-const SERVER_HOST = "http://192.168.137.1:8084";
+const SERVER_HOST = "http://192.168.137.34:8084";
 /**
  * Security Urls
  **/
@@ -91,4 +91,24 @@ export  const URL_GET_ALL_PERSONA_AUTORIZADA = SERVER_HOST+"/rodas-costos/api/v1
 export  const URL_SAVE_PERSONA_AUTORIZADA  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/persona-autorizada/save";
 export  const URL_DELETE_PERSONA_AUTORIZADA  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/persona-autorizada/delete/id/";
 export  const URL_UPDATE_PERSONA_AUTORIZADA  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/persona-autorizada/update";
+
+//Trabajador
+export  const URL_GET_ALL_TRABAJDOR = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/trabajador/all";
+export  const URL_SAVE_TRABAJADOR  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/trabajador/save";
+export  const URL_DELETE_TRABAJADOR  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/trabajador/delete/id/";
+export  const URL_UPDATE_TRABAJADOR  = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/trabajador/update";
+
+//Etapa-Ueb
+export const URL_SAVE_UEB_ETAPA = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/ueb-etapa/save";
+export const URL_DELETE_UEB_ETAPA = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/ueb-etapa/delete";
+
+//Coeficientes
+export const URL_GET_ALL_COEFICIENTES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente/all";
+export const URL_SAVE_COEFICIENTES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente/save";
+export const URL_SAVE_COEFICIENTE_GASTOS_BANCARIOS=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gb/save"
+export const URL_SAVE_COEFICIENTE_GASTOS_DISTRIBUCION_VENTAS=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gdv/save"
+export const URL_SAVE_COEFICIENTE_GASTOS_GENERALES_ADMON=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gga/save"
+export const URL_SAVE_COEFICIENTE_GASTOS_INDIRECTOS_PRODUCCION=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gip/save"
+
+
 
