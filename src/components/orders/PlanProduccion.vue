@@ -79,7 +79,6 @@
                                                         :rules="rules.actividad"></v-combobox>
                                         </v-flex>
                                     </v-layout>
-
                                     <v-layout row class="ma-1 text-right">
                                         <v-flex>
                                             <v-btn class="mr-1" color="success" type="submit" :loading="loading"
