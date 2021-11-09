@@ -1,6 +1,6 @@
 //Projects urls
 export const JWT_SECRET_KEY = "QsbjabKbkbKjsdays89sdskdnasnSSUasndasndP";
-const SERVER_HOST = "http://192.168.137.34:8084";
+const SERVER_HOST = "http://localhost:8084";
 /**
  * Security Urls
  **/
@@ -109,6 +109,9 @@ export const URL_SAVE_COEFICIENTE_GASTOS_BANCARIOS=SERVER_HOST+"/rodas-costos/ap
 export const URL_SAVE_COEFICIENTE_GASTOS_DISTRIBUCION_VENTAS=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gdv/save"
 export const URL_SAVE_COEFICIENTE_GASTOS_GENERALES_ADMON=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gga/save"
 export const URL_SAVE_COEFICIENTE_GASTOS_INDIRECTOS_PRODUCCION=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gip/save"
-
-
-
+export const URL_DELETE_COEFICIENTES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente/delete/id/";
+export const URL_GET_COEFICIENTE = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente/id/";
+export const URL_GET_COEFICIENTE_GASTOS_BANCARIOS=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gb/id/"
+export const URL_GET_COEFICIENTE_GASTOS_DISTRIBUCION_VENTAS=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gdv/id/"
+export const URL_GET_COEFICIENTE_GASTOS_GENERALES_ADMON=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gga/id/"
+export const URL_GET_COEFICIENTE_GASTOS_INDIRECTOS_PRODUCCION=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gip/id/"
