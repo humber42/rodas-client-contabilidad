@@ -1,3 +1,4 @@
+/*eslint-disable*/
 <template>
     <v-container>
         <v-container class="mt-2">
@@ -722,7 +723,7 @@
                     </v-dialog>
                     <v-dialog v-model="openDialogPreview" persistent width="1000">
                         <v-card>
-                            <v-card-title v-if="coeficienteToPreview!==null||coeficienteToPreview>0">
+                            <v-card-title v-if="coeficienteToPreview!==null||coeficienteToPreview.id>0">
                                 Coeficiente {{coeficienteToPreview.id}}
                                 <v-flex class="text-right">
                                     <v-btn color="error" @click="handleCancelPreview">
@@ -939,7 +940,6 @@
                 coeficienteToPreview: {}
             }
         },
-        rules: {},
         methods: {
             dialogDeleteOpen(item) {
                 console.log(item)

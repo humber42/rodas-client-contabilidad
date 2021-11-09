@@ -115,3 +115,9 @@ export const URL_GET_COEFICIENTE_GASTOS_BANCARIOS=SERVER_HOST+"/rodas-costos/api
 export const URL_GET_COEFICIENTE_GASTOS_DISTRIBUCION_VENTAS=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gdv/id/"
 export const URL_GET_COEFICIENTE_GASTOS_GENERALES_ADMON=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gga/id/"
 export const URL_GET_COEFICIENTE_GASTOS_INDIRECTOS_PRODUCCION=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gip/id/"
+
+//Categorias de Agrupacion
+export const URL_GET_ALL_DIRECT_CATEGORIES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/all";
+export const URL_GET_ALL_INDIRECT_CATEGORIES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion-indirecta/all";
+export const URL_DELETE_DIRECT_CATEGORIE = "/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/delete/id/";
+export const URL_DELETE_INDIRECT_CATEGORIE = "/rodas-costos/api/v1/rodas-costos/categoria-agrupacion-indirecta/delete/id/";
