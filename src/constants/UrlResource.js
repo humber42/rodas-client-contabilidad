@@ -169,18 +169,19 @@ export const URL_DELETE_UEB_ETAPA =
   SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/ueb-etapa/delete";
 
 //Coeficientes
-export const URL_GET_ALL_COEFICIENTES =
-  SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/coeficiente/all";
-export const URL_SAVE_COEFICIENTES =
-  SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/coeficiente/save";
-export const URL_SAVE_COEFICIENTE_GASTOS_BANCARIOS =
-  SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/coeficiente-gb/save";
-export const URL_SAVE_COEFICIENTE_GASTOS_DISTRIBUCION_VENTAS =
-  SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/coeficiente-gdv/save";
-export const URL_SAVE_COEFICIENTE_GASTOS_GENERALES_ADMON =
-  SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/coeficiente-gga/save";
-export const URL_SAVE_COEFICIENTE_GASTOS_INDIRECTOS_PRODUCCION =
-  SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/coeficiente-gip/save";
+export const URL_GET_ALL_COEFICIENTES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente/all";
+export const URL_SAVE_COEFICIENTES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente/save";
+export const URL_SAVE_COEFICIENTE_GASTOS_BANCARIOS=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gb/save"
+export const URL_SAVE_COEFICIENTE_GASTOS_DISTRIBUCION_VENTAS=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gdv/save"
+export const URL_SAVE_COEFICIENTE_GASTOS_GENERALES_ADMON=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gga/save"
+export const URL_SAVE_COEFICIENTE_GASTOS_INDIRECTOS_PRODUCCION=SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente-gip/save"
+export const URL_DELETE_COEFICIENTES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/coeficiente/delete/id/";
+
+//Categorias de Agrupacion
+export const URL_GET_ALL_DIRECT_CATEGORIES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/all";
+export const URL_GET_ALL_INDIRECT_CATEGORIES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion-indirecta/all";
+export const URL_DELETE_DIRECT_CATEGORIE = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/delete/id/";
+export const URL_DELETE_INDIRECT_CATEGORIE = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion-indirecta/delete/id/";
 
 //Ficha de costo
 export const URL_GET_ALL_FICHA_COSTO =
@@ -207,4 +208,3 @@ export const URL_GET_ALL_ORDEN_TRBAJO = SERVER_HOST + "/rodas-costos/api/v1/roda
 export const URL_SAVE_ORDEN_TRABAJO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/orden-trabajo/save";
 export const URL_DELETE_ORDEN_TRABAJO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/orden-trabajo/delete/id/";
 export const URL_UPDATE_ORDEN_TRABAJO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/orden-trabajo/update";
-

@@ -1,3 +1,4 @@
+/*eslint-disable*/
 <template>
     <v-container>
         <v-container class="mt-2">
@@ -139,11 +140,14 @@
                                                 <v-row class="mt-3">
                                                     <v-layout row class="ma-1 mt-2">
                                                         <v-flex class="text-right">
-                                                            <v-btn @click="stepperStep++" color="primary">Siguiente</v-btn>
+                                                            <v-btn @click="stepperStep++" color="primary">Siguiente
+                                                            </v-btn>
+                                                            <v-btn class="ml-1 mr-2" @click="handleCancel"
+                                                                   color="error">
+                                                                Cancelar
+                                                            </v-btn>
                                                         </v-flex>
-
                                                     </v-layout>
-
                                                 </v-row>
                                             </v-container>
                                         </v-card>
@@ -228,7 +232,12 @@
                                                             <v-btn @click="stepperStep--" color="primary">Atrás</v-btn>
                                                         </v-flex>
                                                         <v-flex class="text-right">
-                                                            <v-btn @click="stepperStep++" color="primary">Siguiente</v-btn>
+                                                            <v-btn @click="stepperStep++" color="primary">Siguiente
+                                                            </v-btn>
+                                                            <v-btn class="ml-1 mr-2" @click="handleCancel"
+                                                                   color="error">
+                                                                Cancelar
+                                                            </v-btn>
                                                         </v-flex>
 
                                                     </v-layout>
@@ -318,7 +327,12 @@
                                                             <v-btn @click="stepperStep--" color="primary">Atrás</v-btn>
                                                         </v-flex>
                                                         <v-flex class="text-right">
-                                                            <v-btn @click="stepperStep++" color="primary">Siguiente</v-btn>
+                                                            <v-btn @click="stepperStep++" color="primary">Siguiente
+                                                            </v-btn>
+                                                            <v-btn class="ml-1 mr-2" @click="handleCancel"
+                                                                   color="error">
+                                                                Cancelar
+                                                            </v-btn>
                                                         </v-flex>
 
                                                     </v-layout>
@@ -408,7 +422,12 @@
                                                             <v-btn @click="stepperStep--" color="primary">Atrás</v-btn>
                                                         </v-flex>
                                                         <v-flex class="text-right">
-                                                            <v-btn @click="stepperStep++" color="primary">Siguiente</v-btn>
+                                                            <v-btn @click="stepperStep++" color="primary">Siguiente
+                                                            </v-btn>
+                                                            <v-btn class="ml-1 mr-2" @click="handleCancel"
+                                                                   color="error">
+                                                                Cancelar
+                                                            </v-btn>
                                                         </v-flex>
 
                                                     </v-layout>
@@ -434,7 +453,6 @@
                                                                 <v-row>
                                                                     <v-col cols="4">
                                                                         <v-list>
-
                                                                             <v-list-item-title>Moneda total
                                                                             </v-list-item-title>
                                                                             <v-list-item-subtitle>Totales:
@@ -485,7 +503,8 @@
                                                     <v-col cols="6">
                                                         <v-card shaped>
                                                             <v-container>
-                                                                <v-card-title>Gastos de Distribución y Ventas                                                                </v-card-title>
+                                                                <v-card-title>Gastos de Distribución y Ventas
+                                                                </v-card-title>
                                                                 <v-row>
                                                                     <v-col cols="4">
                                                                         <v-list>
@@ -600,7 +619,6 @@
                                                                 <v-row>
                                                                     <v-col cols="4">
                                                                         <v-list>
-
                                                                             <v-list-item-title>Moneda total
                                                                             </v-list-item-title>
                                                                             <v-list-item-subtitle>Totales:
@@ -654,22 +672,174 @@
                                                             <v-btn @click="stepperStep--" color="primary">Atrás</v-btn>
                                                         </v-flex>
                                                         <v-flex class="text-right">
-                                                            <v-btn @click="handleFinish" color="primary" :disabled="loading" :loading="loading">
+                                                            <v-btn @click="handleFinish" color="primary"
+                                                                   :disabled="loading" :loading="loading">
                                                                 <span slot="loader" class="custom-loader">
                                                                     <v-icon>mdi-refresh</v-icon>
                                                                 </span>
-                                                                Finalizar</v-btn>
+                                                                Finalizar
+                                                            </v-btn>
+                                                            <v-btn class="ml-1 mr-2" @click="handleCancel" color="error"
+                                                                   :disabled="loading">
+                                                                Cancelar
+                                                            </v-btn>
                                                         </v-flex>
-
                                                     </v-layout>
-
                                                 </v-row>
                                             </v-container>
                                         </v-card>
                                     </v-stepper-content>
-
-
                                 </v-stepper>
+                            </v-container>
+                        </v-card>
+                    </v-dialog>
+                    <v-dialog v-model="openDialogDelete" persistent max-width="520">
+                        <v-card>
+                            <v-card-title v-if="coeficienteToDelete!==null||coeficienteToDelete.id>0">
+                                Eliminar coeficiente
+                            </v-card-title>
+                            <v-divider/>
+                            <v-container>
+                                <h3 class="font-weight-light">
+                                    ¿Desea eliminar el coeficiente con identificador {{coeficienteToDelete.id}}?
+                                </h3>
+                                <v-layout row class="ma-1 text-center">
+                                    <v-flex xs12>
+                                        <v-btn color="success" class="mr-1" @click="handleDeleteCoeficiente"
+                                               :loading="loading" :disabled="loading">
+
+                                            <span slot="loader" class="custom-loader">
+                                                <v-icon>mdi-refresh</v-icon>
+                                            </span>
+                                            Sí
+                                        </v-btn>
+                                        <v-btn color="error" class="ml-1" @click="handleCancelDelete">
+                                            No
+                                        </v-btn>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                        </v-card>
+                    </v-dialog>
+                    <v-dialog v-model="openDialogPreview" persistent width="1000">
+                        <v-card>
+                            <v-card-title v-if="coeficienteToPreview!==null||coeficienteToPreview.id>0">
+                                Coeficiente {{coeficienteToPreview.id}}
+                                <v-flex class="text-right">
+                                    <v-btn color="error" @click="handleCancelPreview">
+                                        <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                </v-flex>
+                            </v-card-title>
+                            <v-divider/>
+                            <v-container>
+                                <v-row>
+                                    <v-col cols="6">
+                                        <v-card shaped>
+                                            <v-container>
+                                                <v-card-title>Gastos Bancarios
+                                                </v-card-title>
+                                                <v-row>
+                                                    <v-col cols="4">
+                                                        <v-list>
+                                                            <v-list-item-title>Moneda total</v-list-item-title>
+                                                        </v-list>
+                                                    </v-col>
+                                                    <v-col cols="4">
+                                                        <v-list v-if="coeficienteToPreview!==null">
+                                                            <v-list-item-title>CUC</v-list-item-title>
+                                                        </v-list>
+                                                    </v-col>
+                                                    <v-col cols="4">
+                                                        <v-list v-if="coeficienteToPreview!==null">
+                                                            <v-list-item-title>CUP</v-list-item-title>
+                                                        </v-list>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-container>
+                                        </v-card>
+                                    </v-col>
+
+                                    <v-col cols="6">
+                                        <v-card shaped>
+                                            <v-container>
+                                                <v-card-title>Gastos de Distribución y Ventas
+                                                </v-card-title>
+                                                <v-row>
+                                                    <v-col cols="4">
+                                                        <v-list v-if="coeficienteToPreview!==null">
+                                                            <v-list-item-title>Moneda total
+                                                            </v-list-item-title>
+                                                        </v-list>
+                                                    </v-col>
+                                                    <v-col cols="4">
+                                                        <v-list v-if="coeficienteToPreview!==null">
+                                                            <v-list-item-title>CUC</v-list-item-title>
+                                                        </v-list>
+                                                    </v-col>
+                                                    <v-col cols="4">
+                                                        <v-list v-if="coeficienteToPreview!==null">
+                                                            <v-list-item-title>CUP</v-list-item-title>
+                                                        </v-list>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-container>
+                                        </v-card>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-card shaped>
+                                            <v-container>
+                                                <v-card-title>Gastos Generales de Administración
+                                                </v-card-title>
+                                                <v-row>
+                                                    <v-col cols="4">
+                                                        <v-list v-if="coeficienteToPreview!==null">
+                                                            <v-list-item-title>Moneda total
+                                                            </v-list-item-title>
+                                                        </v-list>
+                                                    </v-col>
+                                                    <v-col cols="4">
+                                                        <v-list v-if="coeficienteToPreview!==null">
+                                                            <v-list-item-title>CUC</v-list-item-title>
+                                                        </v-list>
+                                                    </v-col>
+                                                    <v-col cols="4">
+                                                        <v-list>
+                                                            <v-list-item-title>CUP</v-list-item-title>
+                                                        </v-list>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-container>
+                                        </v-card>
+                                    </v-col>
+
+                                    <v-col cols="6">
+                                        <v-card shaped>
+                                            <v-container>
+                                                <v-card-title>Gastos Indirectos de Producción
+                                                </v-card-title>
+                                                <v-row>
+                                                    <v-col cols="4">
+                                                        <v-list v-if="coeficienteToPreview!==null">
+                                                            <v-list-item-title>Moneda total
+                                                            </v-list-item-title>
+                                                        </v-list>
+                                                    </v-col>
+                                                    <v-col cols="4">
+                                                        <v-list v-if="coeficienteToPreview!==null">
+                                                            <v-list-item-title>CUC</v-list-item-title>
+                                                        </v-list>
+                                                    </v-col>
+                                                    <v-col cols="4">
+                                                        <v-list>
+                                                            <v-list-item-title>CUP</v-list-item-title>
+                                                        </v-list>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-container>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
                             </v-container>
                         </v-card>
                     </v-dialog>
@@ -683,13 +853,13 @@
 <script>
     import axios from "axios";
     import {
+        URL_DELETE_COEFICIENTES,
         URL_GET_ALL_COEFICIENTES,
         URL_SAVE_COEFICIENTE_GASTOS_BANCARIOS,
         URL_SAVE_COEFICIENTE_GASTOS_DISTRIBUCION_VENTAS,
         URL_SAVE_COEFICIENTE_GASTOS_GENERALES_ADMON,
         URL_SAVE_COEFICIENTE_GASTOS_INDIRECTOS_PRODUCCION, URL_SAVE_COEFICIENTES
     } from "../../../constants/UrlResource";
-
 
 
     export default {
@@ -699,7 +869,7 @@
                 tableLoading: false,
                 coeficientesList: [],
                 classButtons: '',
-                loading:false,
+                loading: false,
                 headers: [
                     {text: "Identificador", value: "id", align: "center"},
                     {text: "Fecha", value: "fecha", align: "center"},
@@ -707,6 +877,8 @@
                 ],
                 search: '',
                 openDialogRegister: false,
+                openDialogDelete: false,
+                openDialogPreview: false,
                 coeficienteBancario: {
                     id: 0,
                     coeficienteGastoTotalMn: 0,
@@ -763,15 +935,21 @@
                     idCoeficienteGastosDistribucionVentas: 1,
                     idCoeficientesGastosIndirectosProduccion: 1
                 },
-                stepperStep: 1
+                stepperStep: 1,
+                coeficienteToDelete: {},
+                coeficienteToPreview: {}
             }
         },
         methods: {
             dialogDeleteOpen(item) {
                 console.log(item)
+                this.coeficienteToDelete = item;
+                this.openDialogDelete = true;
             },
             viewItem(item) {
                 console.log(item)
+                this.coeficienteToPreview = item;
+                this.openDialogPreview = true;
             },
             loadDataTable() {
                 this.tableLoading = true;
@@ -808,54 +986,131 @@
             handleFinish() {
                 const token = localStorage.getItem("token")
                 this.loading = true;
-                axios.post(URL_SAVE_COEFICIENTE_GASTOS_BANCARIOS,this.coeficienteBancario,{
-                    headers:{
+                axios.post(URL_SAVE_COEFICIENTE_GASTOS_BANCARIOS, this.coeficienteBancario, {
+                    headers: {
                         "Authorization": "Bearer " + token,
                         "cache-control": "no-cache",
                     }
-                }).then(({data})=>{
-                    this.coeficiente.idCoeficienteGastosBancarios=data.id;
-                    axios.post(URL_SAVE_COEFICIENTE_GASTOS_DISTRIBUCION_VENTAS,this.coeficienteGDYVenta,{
-                        headers:{
+                }).then(({data}) => {
+                    this.coeficiente.idCoeficienteGastosBancarios = data.id;
+                    axios.post(URL_SAVE_COEFICIENTE_GASTOS_DISTRIBUCION_VENTAS, this.coeficienteGDYVenta, {
+                        headers: {
                             "Authorization": "Bearer " + token,
                             "cache-control": "no-cache",
                         }
-                    }).then(({data})=>{
-                        this.coeficiente.idCoeficienteGastosDistribucionVentas= data.id
-                        axios.post(URL_SAVE_COEFICIENTE_GASTOS_GENERALES_ADMON,this.coeficienteGGAdmin,{
-                            headers:{
+                    }).then(({data}) => {
+                        this.coeficiente.idCoeficienteGastosDistribucionVentas = data.id
+                        axios.post(URL_SAVE_COEFICIENTE_GASTOS_GENERALES_ADMON, this.coeficienteGGAdmin, {
+                            headers: {
                                 "Authorization": "Bearer " + token,
                                 "cache-control": "no-cache",
                             }
-                        }).then(({data})=>{
-                            this.coeficiente.idCoeficienteGastoGeneralesAdmon= data.id
-                            axios.post(URL_SAVE_COEFICIENTE_GASTOS_INDIRECTOS_PRODUCCION,this.coeficienteGIProd,{
-                                headers:{
+                        }).then(({data}) => {
+                            this.coeficiente.idCoeficienteGastoGeneralesAdmon = data.id
+                            axios.post(URL_SAVE_COEFICIENTE_GASTOS_INDIRECTOS_PRODUCCION, this.coeficienteGIProd, {
+                                headers: {
                                     "Authorization": "Bearer " + token,
                                     "cache-control": "no-cache",
                                 }
-                            }).then(({data})=>{
-                                this.coeficiente.idCoeficientesGastosIndirectosProduccion=data.id;
+                            }).then(({data}) => {
+                                this.coeficiente.idCoeficientesGastosIndirectosProduccion = data.id;
 
                                 this.coeficiente.fecha = "2021-01-01";
 
-                                axios.post(URL_SAVE_COEFICIENTES,this.coeficiente,{
-                                    headers:{
+                                axios.post(URL_SAVE_COEFICIENTES, this.coeficiente, {
+                                    headers: {
                                         "Authorization": "Bearer " + token,
                                         "cache-control": "no-cache",
                                     }
-                                }).then(({data})=>{
+                                }).then(({data}) => {
                                     this.coeficientesList.push(data);
-                                    this.loading=false;
-                                    this.stepperStep=1
-                                    this.openDialogRegister=false;
-                                }).catch(err=>console.log(err))
-                            }).catch(err=>console.log(err))
-                        }).catch(err=>console.log(err))
-                    }).catch(err=>console.log(err))
-                }).catch(err=>console.log(err));
-
-
+                                    this.loading = false;
+                                    this.stepperStep = 1
+                                    this.openDialogRegister = false;
+                                }).catch(err => console.log(err))
+                            }).catch(err => console.log(err))
+                        }).catch(err => console.log(err))
+                    }).catch(err => console.log(err))
+                }).catch(err => console.log(err));
+            },
+            handleCancel() {
+                this.openDialogRegister = false
+                this.stepperStep = 1
+                this.coeficienteBancario = {
+                    id: 0,
+                    coeficienteGastoTotalMn: 0,
+                    coeficienteGastoTotalMlc: 0,
+                    coeficienteGastoTotalMt: 0,
+                    coeficienteGastoDeprecMn: 0,
+                    coeficienteGastoDeprecMlc: 0,
+                    coeficienteGastoDeprecMt: 0,
+                    coeficienteGastoMantenimientoYRepMn: 0,
+                    coeficienteGastoMantenimientoYRepMlc: 0,
+                    coeficienteGastoMantenimientoYRepMt: 0
+                },
+                    this.coeficienteGGAdmin = {
+                        id: 0,
+                        coeficienteGastoTotalMn: 0,
+                        coeficienteGastoTotalMlc: 0,
+                        coeficienteGastoTotalMt: 0,
+                        coeficienteGastoDeprecMn: 0,
+                        coeficienteGastoDeprecMlc: 0,
+                        coeficienteGastoDeprecMt: 0,
+                        coeficienteGastoMantenimientoYRepMn: 0,
+                        coeficienteGastoMantenimientoYRepMlc: 0,
+                        coeficienteGastoMantenimientoYRepMt: 0
+                    },
+                    this.coeficienteGDYVenta = {
+                        id: 0,
+                        coeficienteGastoTotalMn: 0,
+                        coeficienteGastoTotalMlc: 0,
+                        coeficienteGastoTotalMt: 0,
+                        coeficienteGastoDeprecMn: 0,
+                        coeficienteGastoDeprecMlc: 0,
+                        coeficienteGastoDeprecMt: 0,
+                        coeficienteGastoMantenimientoYRepMn: 0,
+                        coeficienteGastoMantenimientoYRepMlc: 0,
+                        coeficienteGastoMantenimientoYRepMt: 0
+                    },
+                    this.coeficienteGIProd = {
+                        id: 0,
+                        coeficienteGastoTotalMn: 0,
+                        coeficienteGastoTotalMlc: 0,
+                        coeficienteGastoTotalMt: 0,
+                        coeficienteGastoDeprecMn: 0,
+                        coeficienteGastoDeprecMlc: 0,
+                        coeficienteGastoDeprecMt: 0,
+                        coeficienteGastoMantenimientoYRepMn: 0,
+                        coeficienteGastoMantenimientoYRepMlc: 0,
+                        coeficienteGastoMantenimientoYRepMt: 0
+                    }
+            },
+            handleCancelDelete() {
+                this.openDialogDelete = false;
+            },
+            handleDeleteCoeficiente() {
+                this.loading = true;
+                const token = localStorage.getItem("token");
+                axios.delete(URL_DELETE_COEFICIENTES + this.coeficienteToDelete.id, {
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "cache-control": "no-cache",
+                    }
+                }).then(() => {
+                    this.loading = false;
+                    this.handleCancelDelete();
+                    this.loadDataTable();
+                }).catch((err) => {
+                    this.loading = false;
+                    console.log(err)
+                    if (err.response.status === 403) {
+                        this.$store.commit('setUser', null)
+                        this.$router.push("/login")
+                    }
+                })
+            },
+            handleCancelPreview() {
+                this.openDialogPreview = false;
             }
 
         },
