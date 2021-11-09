@@ -221,7 +221,7 @@
                     {text: "Código", value: "codigo", align: "center"},
                     {text: "Nombre", value: "nombre", align: 'center'},
                     {text: "Descripción", value: "descripcion", align: 'center'},
-                    {text: "Unidad de medida", value: "tipoActividad.nombre", align: 'center'},
+                    {text: "Tipo de actividad", value: "tipoActividad.nombre", align: 'center'},
                     {text: "Unidad de medida", value: "unidadMedida.nombre", align: 'center'},
                     {text: "Acciones", value: "actions", align: 'center'}
                 ],
