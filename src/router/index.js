@@ -28,6 +28,7 @@ import Informe1 from "../components/reports/Informe1";
 import ConfiguracionSistema from "../components/utilities/ConfiguracionSistema";
 import ImportarDatosVersionAnterior from "../components/utilities/ImportarDatosVersionAnterior";
 import Trabajador from "../components/codifiers/personsUebs/Trabajador";
+import RegisterOrdenTrabajo from "../components/orders/childComponents/RegisterOrdenTrabajo";
 
 
 Vue.use(VueRouter);
@@ -171,6 +172,11 @@ const routes = [
     path: "/worker",
     name: "Trabajador",
     component: Trabajador
+  },
+  {
+    path: "/register-work-order",
+    name: "RegisterOrdenTrabajo",
+    component: RegisterOrdenTrabajo
   }
 ];
 
