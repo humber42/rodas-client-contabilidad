@@ -119,5 +119,5 @@ export const URL_GET_COEFICIENTE_GASTOS_INDIRECTOS_PRODUCCION=SERVER_HOST+"/roda
 //Categorias de Agrupacion
 export const URL_GET_ALL_DIRECT_CATEGORIES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/all";
 export const URL_GET_ALL_INDIRECT_CATEGORIES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion-indirecta/all";
-export const URL_DELETE_DIRECT_CATEGORIE = "/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/delete/id/";
-export const URL_DELETE_INDIRECT_CATEGORIE = "/rodas-costos/api/v1/rodas-costos/categoria-agrupacion-indirecta/delete/id/";
+export const URL_DELETE_DIRECT_CATEGORIE = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/delete/id/";
+export const URL_DELETE_INDIRECT_CATEGORIE = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion-indirecta/delete/id/";
