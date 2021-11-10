@@ -182,6 +182,8 @@ export const URL_GET_ALL_CATEGORIES = SERVER_HOST+"/rodas-costos/api/v1/rodas-co
 export const URL_GET_ALL_DIRECT_CATEGORIES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/all/direct";
 export const URL_GET_ALL_INDIRECT_CATEGORIES = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/all/indirect";
 export const URL_DELETE_CATEGORIE = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/delete/id/";
+export const URL_SAVE_CATEGORIE = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/save";
+export const URL_UPDATE_CATEGORIE = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/update";
 
 //Ficha de costo
 export const URL_GET_ALL_FICHA_COSTO =
