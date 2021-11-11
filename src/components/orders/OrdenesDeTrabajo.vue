@@ -56,7 +56,7 @@
                             </v-card-title>
                             <v-divider></v-divider>
                             <v-container>
-                                <h3 v-if="ordenTrabajoToDelete!==null" class="font-weight-light">¿Desea eliminar la orden de trbajo {{ordenTrabajoToDelete.ordenTrabajo}}?</h3>
+                                <h3 v-if="ordenTrabajoToDelete!==null" class="font-weight-light">¿Desea eliminar la orden de trabajo {{ordenTrabajoToDelete.ordenTrabajo}}?</h3>
                                 <v-layout row class="ma-1 text-center">
                                     <v-flex xs12>
                                         <v-btn color="success" class="mr-1" @click="handleDeleteOrdenTrabajo"
@@ -81,7 +81,7 @@
 
 <script>
     import axios from "axios";
-    import {URL_GET_ALL_ORDEN_TRBAJO} from "../../constants/UrlResource";
+    import {URL_DELETE_ORDEN_TRABAJO, URL_GET_ALL_ORDEN_TRBAJO} from "../../constants/UrlResource";
 
     export default {
         name: "OrdenesDeTrabajo",
@@ -112,6 +112,8 @@
         methods:{
             deleteItem(item){
                 console.log(item)
+                this.ordenTrabajoToDelete=item;
+                this.openDeleteDialog=true;
             },
             loadDataTable(){
                 this.tableLoading = true;
@@ -137,17 +139,29 @@
             openNewDialog(){
                 this.$router.push("/register-work-order")
             },
-            handleNewOrdenTrabajo(){
 
-            },
             handleDeleteOrdenTrabajo(){
+                const token = localStorage.getItem('token')
+                this.loading =true;
+                axios.delete(URL_DELETE_ORDEN_TRABAJO+this.ordenTrabajoToDelete.id,{
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "cache-control": "no-cache",
+                    }
+                }).then(()=>{
+                    this.loadDataTable();
+                    this.loading=false;
+                    this.handleCancelDeleteDialog()
+                }).catch(err=> {
+                    console.log(err)
+                    this.loading=false
+                })
 
             },
-            handleCancelNewDialog(){
 
-            },
             handleCancelDeleteDialog(){
-
+                this.openDeleteDialog=false;
+                this.ordenTrabajoToDelete=null
             },
             onResizes() {
                 const windowsSize = {x: window.innerWidth, y: window.innerHeight}

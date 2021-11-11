@@ -210,3 +210,9 @@ export const URL_GET_ALL_ORDEN_TRBAJO = SERVER_HOST + "/rodas-costos/api/v1/roda
 export const URL_SAVE_ORDEN_TRABAJO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/orden-trabajo/save";
 export const URL_DELETE_ORDEN_TRABAJO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/orden-trabajo/delete/id/";
 export const URL_UPDATE_ORDEN_TRABAJO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/orden-trabajo/update";
+
+
+//ORDEN TRABAJO Materiales Registro laboral diario
+export const URL_SAVE_MATERIAL = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/material/save/especial";
+export const URL_SAVE_REGISTRO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/reporte-diario-laboral/save/especial";
+export const URL_SAVE_ORDEN_FACTURACION = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/orden-facturacion/save";

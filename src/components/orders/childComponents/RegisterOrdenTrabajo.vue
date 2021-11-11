@@ -384,7 +384,11 @@
                                         </v-flex>
                                         <v-flex class="text-right">
                                             <v-btn color="primary"
-                                                   @click="handleSave">Guardar
+                                                   @click="handleSave" :disabled="loading" :loading="loading">
+                                                <span slot="loader" class="custom-loader">
+                                                    <v-icon>mdi-refresh</v-icon>
+                                                </span>
+                                                Guardar
                                             </v-btn>
                                         </v-flex>
                                     </v-layout>
@@ -404,7 +408,12 @@
         URL_GET_ALL_CARGOS,
         URL_GET_ALL_CLIENTE,
         URL_GET_ALL_FICHA_COSTO,
-        URL_GET_ALL_UEB, URL_GET_ALL_UNIDAD_MEDIDA
+        URL_GET_ALL_UEB,
+        URL_GET_ALL_UNIDAD_MEDIDA,
+        URL_SAVE_MATERIAL,
+        URL_SAVE_ORDEN_FACTURACION,
+        URL_SAVE_ORDEN_TRABAJO,
+        URL_SAVE_REGISTRO
     } from "../../../constants/UrlResource";
     import MaterialesComponent from "./MaterialesComponent";
     import ReporteDiarioLaboralComponent from "./ReporteDiarioLaboralComponent";
@@ -418,6 +427,7 @@
                 fichasDeCostoList: [],
                 clientesList: [],
                 uebsList: [],
+                loading:false,
                 cargosList: [],
                 datosGenerales: {
                     fichaCosto: null,
@@ -493,6 +503,7 @@
                     descripcion:''
                 },
                 unidadesMedidaList:[],
+                idOrdenTrabajo:0
             }
         },
         methods: {
@@ -622,8 +633,96 @@
                 })
             },
             handleSave(){
-                //TODO:HACER EL METODO en el backend para ejecutarlo en el fronntend
-                console.log("Exito")
+                this.loading=true;
+                const payloadOrdenTrabajo ={
+                    cerrada: false,
+                    descripcionServicio: this.reportes.descripcion,
+                    fechaConfeccion: this.datosGenerales.fechaConfeccion,
+                    fechaEntrega: this.datosGenerales.fechaEntrega,
+                    id: 0,
+                    idActividad: this.datosGenerales.fichaCosto.actividad.id,
+                    idCargo: this.reportes.cargo.id,
+                    idCliente: this.datosGenerales.cliente.id,
+                    idFichaCosto: this.datosGenerales.fichaCosto.id,
+                    idUeb: this.datosGenerales.ueb.id,
+                    identidadUsuario: this.usuario.ci,
+                    motivoServicio: this.reportes.motivo,
+                    nombreAprobacion: this.reportes.nombre,
+                    nombreConformidad: this.reportes.nombre,
+                    numeroContrato: this.datosGenerales.noContrato,
+                    observaciones: this.datosGenerales.observaciones,
+                    ordenTrabajo: this.datosGenerales.ordenTrabajo,
+                    vendedor: this.usuario.nombre
+                } ;
+                console.log("Payload orden trabajo",payloadOrdenTrabajo)
+                const token = localStorage.getItem("token")
+                axios.post(URL_SAVE_ORDEN_TRABAJO,payloadOrdenTrabajo,{
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "cache-control": "no-cache",
+                    }
+                }).then(({data})=>{
+                    console.log(data)
+                    this.idOrdenTrabajo=data.id;
+                    const payloadMaterials={
+                        especialList: this.materiales,
+                        ordenTrabajoId: this.idOrdenTrabajo
+                    }
+                    console.log("Payload Materials",payloadMaterials)
+                    axios.post(URL_SAVE_MATERIAL,payloadMaterials,{
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "cache-control": "no-cache",
+                        }
+                    }).then(()=>{
+                        const payloadReportes={
+                            especialList: this.reportesDiarios,
+                            ordenTrabajoId: this.idOrdenTrabajo
+                        }
+                        console.log("Payload Reportes", payloadReportes)
+                        axios.post(URL_SAVE_REGISTRO,payloadReportes,{
+                            headers: {
+                                "Authorization": "Bearer " + token,
+                                "cache-control": "no-cache",
+                            }}).then(()=>{
+                                const payloadOrdenFacturacion={
+                                    cantidad: this.ordenFacturacion.cantidad,
+                                    codigo: this.ordenFacturacion.codigo,
+                                    descripcion: this.ordenFacturacion.descripcion,
+                                    id: 0,
+                                    idOrdenTrabajo: this.idOrdenTrabajo,
+                                    idUnidadMedida: this.ordenFacturacion.unidadMedida.id,
+                                    importeMlc: this.ordenFacturacion.importeMlc,
+                                    importeMn: this.ordenFacturacion.importeMn,
+                                    precioMlc: this.ordenFacturacion.precioMLC,
+                                    precioMn: this.ordenFacturacion.precioMn,
+                                    proveedorServicio: this.ordenFacturacion.proveedorServicio
+                                }
+                                console.log("Payload Orden Facturacion",payloadOrdenFacturacion)
+                                axios.post(URL_SAVE_ORDEN_FACTURACION,payloadOrdenFacturacion,{
+                                    headers: {
+                                        "Authorization": "Bearer " + token,
+                                        "cache-control": "no-cache",
+                                    }
+                                }).then(()=>{
+                                    this.loading=false;
+                                    this.$router.back();
+                                }).catch(err=>{
+                                    console.log(err)
+                                    this.loading=false;
+                                })
+                        }).catch(err=>{
+                            console.log(err)
+                            this.loading=false;
+                        })
+                    }).catch(err=>{
+                        console.log(err)
+                        this.loading=false;
+                    })
+                }).catch(err=>{
+                    console.log(err)
+                    this.loading=false;
+                })
             }
         },
         mounted() {

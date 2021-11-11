@@ -37,15 +37,14 @@
                                         </span>
                                     </v-btn>
                                     <v-speed-dial v-model="fab" :direction="direction" :open-on-hover="hover" :transition="transition">
-                                        <v-btn color="primary" :fab="classButtons" :small="classButtons" class="ml-2"
+                                        <v-btn color="primary" fab small class="ml-2"
                                                @click="openDialogRegisterDirectCategorie" v-resize="onResizes">
                                             CD
-                                            <span v-if="!classButtons"></span>
+
                                         </v-btn>
-                                        <v-btn color="primary" :fab="classButtons" :small="classButtons" class="ml-2"
+                                        <v-btn color="primary" fab small class="ml-2"
                                                @click="openDialogRegisterIndirectCategorie" v-resize="onResizes" dark>
                                             CI
-                                            <span v-if="!classButtons"></span>
                                         </v-btn>
                                         <template v-slot:activator>
                                             <v-btn class="ml-2" rounded elevation="3" height="38" width="38"
@@ -146,7 +145,7 @@
                                             <v-textarea auto-grow label="Descripción"
                                                         v-model="categAgrupacion.descripcion"
                                                         :rules="rules.descripcionRules" counter
-                                                        maxlength="255"></v-textarea>
+                                                        maxlength="100"></v-textarea>
                                         </v-flex>
                                     </v-layout>
 
@@ -206,7 +205,7 @@
                                             <v-textarea auto-grow label="Descripción"
                                                         v-model="categAgrupacion.descripcion"
                                                         :rules="rules.descripcionRules" counter
-                                                        maxlength="255"></v-textarea>
+                                                        maxlength="100"></v-textarea>
                                         </v-flex>
                                     </v-layout>
 
@@ -267,7 +266,7 @@
                                             <v-textarea auto-grow label="Descripción"
                                                         v-model="categoriaToUpdate.descripcion"
                                                         :rules="rules.descripcionRules" counter
-                                                        maxlength="255"></v-textarea>
+                                                        maxlength="100"></v-textarea>
                                         </v-flex>
                                     </v-layout>
 
@@ -343,7 +342,7 @@
                 search: '',
                 fab: false,
                 hover: true,
-                direction: 'bottom',
+                direction: 'top',
                 transition: 'scale-transition',
                 categAgrupacion: {
                     id: 0,
@@ -430,8 +429,10 @@
                 const windowsSize = {x: window.innerWidth, y: window.innerHeight}
                 if (windowsSize.x <= 768) {
                     this.classButtons = true;
+                    this.direction='bottom';
                 } else {
                     this.classButtons = false;
+                    this.direction='top'
                 }
             },
             changeDataInTable() {

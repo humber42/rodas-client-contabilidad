@@ -39,7 +39,7 @@
                                     <template v-slot:activator="{on,attrs}">
                                         <v-icon v-bind="attrs" v-on="on" class="mr-2"
                                                 @click="viewItem(item)"
-                                                color="red">
+                                                color="blue">
                                             mdi-card-bulleted
                                         </v-icon>
                                     </template>
@@ -723,7 +723,7 @@
                     </v-dialog>
                     <v-dialog v-model="openDialogPreview" persistent width="1000">
                         <v-card>
-                            <v-card-title v-if="coeficienteToPreview!==null||coeficienteToPreview.id>0">
+                            <v-card-title v-if="coeficienteToPreview!==null">
                                 Coeficiente {{coeficienteToPreview.id}}
                                 <v-flex class="text-right">
                                     <v-btn color="error" @click="handleCancelPreview">
@@ -735,24 +735,33 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="6">
-                                        <v-card shaped>
+                                        <v-card shaped v-if="coeficienteToPreview!==null">
                                             <v-container>
                                                 <v-card-title>Gastos Bancarios
                                                 </v-card-title>
                                                 <v-row>
                                                     <v-col cols="4">
-                                                        <v-list>
+                                                        <v-list v-if="coeficienteToPreview!==null">
                                                             <v-list-item-title>Moneda total</v-list-item-title>
+                                                            <v-list-item-subtitle>Totales: {{coeficienteToPreview.coeficienteGastosBancarios.coeficienteGastoTotalMt}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Depreciación: {{coeficienteToPreview.coeficienteGastosBancarios.coeficienteGastoDeprecMt}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Otros gastos: {{coeficienteToPreview.coeficienteGastosBancarios.coeficienteGastoMantenimientoYRepMt}}</v-list-item-subtitle>
                                                         </v-list>
                                                     </v-col>
                                                     <v-col cols="4">
                                                         <v-list v-if="coeficienteToPreview!==null">
                                                             <v-list-item-title>CUC</v-list-item-title>
+                                                            <v-list-item-subtitle>Totales: {{coeficienteToPreview.coeficienteGastosBancarios.coeficienteGastoTotalMlc}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Depreciación: {{coeficienteToPreview.coeficienteGastosBancarios.coeficienteGastoDeprecMlc}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Otros gastos: {{coeficienteToPreview.coeficienteGastosBancarios.coeficienteGastoMantenimientoYRepMlc}}</v-list-item-subtitle>
                                                         </v-list>
                                                     </v-col>
                                                     <v-col cols="4">
                                                         <v-list v-if="coeficienteToPreview!==null">
                                                             <v-list-item-title>CUP</v-list-item-title>
+                                                            <v-list-item-subtitle>Totales: {{coeficienteToPreview.coeficienteGastosBancarios.coeficienteGastoTotalMn}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Depreciación: {{coeficienteToPreview.coeficienteGastosBancarios.coeficienteGastoDeprecMn}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Otros gastos: {{coeficienteToPreview.coeficienteGastosBancarios.coeficienteGastoMantenimientoYRepMn}}</v-list-item-subtitle>
                                                         </v-list>
                                                     </v-col>
                                                 </v-row>
@@ -768,18 +777,26 @@
                                                 <v-row>
                                                     <v-col cols="4">
                                                         <v-list v-if="coeficienteToPreview!==null">
-                                                            <v-list-item-title>Moneda total
-                                                            </v-list-item-title>
+                                                            <v-list-item-title>Moneda total</v-list-item-title>
+                                                            <v-list-item-subtitle>Totales: {{coeficienteToPreview.coeficienteGastosDistribucionVentas.coeficienteGastoTotalMt}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Depreciación: {{coeficienteToPreview.coeficienteGastosDistribucionVentas.coeficienteGastoDeprecMt}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Otros gastos: {{coeficienteToPreview.coeficienteGastosDistribucionVentas.coeficienteGastoMantenimientoYRepMt}}</v-list-item-subtitle>
                                                         </v-list>
                                                     </v-col>
                                                     <v-col cols="4">
                                                         <v-list v-if="coeficienteToPreview!==null">
                                                             <v-list-item-title>CUC</v-list-item-title>
+                                                            <v-list-item-subtitle>Totales: {{coeficienteToPreview.coeficienteGastosDistribucionVentas.coeficienteGastoTotalMlc}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Depreciación: {{coeficienteToPreview.coeficienteGastosDistribucionVentas.coeficienteGastoDeprecMlc}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Otros gastos: {{coeficienteToPreview.coeficienteGastosDistribucionVentas.coeficienteGastoMantenimientoYRepMlc}}</v-list-item-subtitle>
                                                         </v-list>
                                                     </v-col>
                                                     <v-col cols="4">
                                                         <v-list v-if="coeficienteToPreview!==null">
                                                             <v-list-item-title>CUP</v-list-item-title>
+                                                            <v-list-item-subtitle>Totales: {{coeficienteToPreview.coeficienteGastosDistribucionVentas.coeficienteGastoTotalMn}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Depreciación: {{coeficienteToPreview.coeficienteGastosDistribucionVentas.coeficienteGastoDeprecMn}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Otros gastos: {{coeficienteToPreview.coeficienteGastosDistribucionVentas.coeficienteGastoMantenimientoYRepMn}}</v-list-item-subtitle>
                                                         </v-list>
                                                     </v-col>
                                                 </v-row>
@@ -794,18 +811,26 @@
                                                 <v-row>
                                                     <v-col cols="4">
                                                         <v-list v-if="coeficienteToPreview!==null">
-                                                            <v-list-item-title>Moneda total
-                                                            </v-list-item-title>
+                                                            <v-list-item-title>Moneda total</v-list-item-title>
+                                                            <v-list-item-subtitle>Totales: {{coeficienteToPreview.coeficienteGastosGeneralesAdmon.coeficienteGastoTotalMt}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Depreciación: {{coeficienteToPreview.coeficienteGastosGeneralesAdmon.coeficienteGastoDeprecMt}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Otros gastos: {{coeficienteToPreview.coeficienteGastosGeneralesAdmon.coeficienteGastoMantenimientoYRepMt}}</v-list-item-subtitle>
                                                         </v-list>
                                                     </v-col>
                                                     <v-col cols="4">
                                                         <v-list v-if="coeficienteToPreview!==null">
                                                             <v-list-item-title>CUC</v-list-item-title>
+                                                            <v-list-item-subtitle>Totales: {{coeficienteToPreview.coeficienteGastosGeneralesAdmon.coeficienteGastoTotalMlc}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Depreciación: {{coeficienteToPreview.coeficienteGastosGeneralesAdmon.coeficienteGastoDeprecMlc}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Otros gastos: {{coeficienteToPreview.coeficienteGastosGeneralesAdmon.coeficienteGastoMantenimientoYRepMlc}}</v-list-item-subtitle>
                                                         </v-list>
                                                     </v-col>
                                                     <v-col cols="4">
-                                                        <v-list>
+                                                        <v-list v-if="coeficienteToPreview!==null">
                                                             <v-list-item-title>CUP</v-list-item-title>
+                                                            <v-list-item-subtitle>Totales: {{coeficienteToPreview.coeficienteGastosGeneralesAdmon.coeficienteGastoTotalMn}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Depreciación: {{coeficienteToPreview.coeficienteGastosGeneralesAdmon.coeficienteGastoDeprecMn}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Otros gastos: {{coeficienteToPreview.coeficienteGastosGeneralesAdmon.coeficienteGastoMantenimientoYRepMn}}</v-list-item-subtitle>
                                                         </v-list>
                                                     </v-col>
                                                 </v-row>
@@ -821,18 +846,26 @@
                                                 <v-row>
                                                     <v-col cols="4">
                                                         <v-list v-if="coeficienteToPreview!==null">
-                                                            <v-list-item-title>Moneda total
-                                                            </v-list-item-title>
+                                                            <v-list-item-title>Moneda total</v-list-item-title>
+                                                            <v-list-item-subtitle>Totales: {{coeficienteToPreview.coeficienteGastosindirectosProduccion.coeficienteGastoTotalMt}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Depreciación: {{coeficienteToPreview.coeficienteGastosindirectosProduccion.coeficienteGastoDeprecMt}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Otros gastos: {{coeficienteToPreview.coeficienteGastosindirectosProduccion.coeficienteGastoMantenimientoYRepMt}}</v-list-item-subtitle>
                                                         </v-list>
                                                     </v-col>
                                                     <v-col cols="4">
                                                         <v-list v-if="coeficienteToPreview!==null">
                                                             <v-list-item-title>CUC</v-list-item-title>
+                                                            <v-list-item-subtitle>Totales: {{coeficienteToPreview.coeficienteGastosindirectosProduccion.coeficienteGastoTotalMlc}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Depreciación: {{coeficienteToPreview.coeficienteGastosindirectosProduccion.coeficienteGastoDeprecMlc}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Otros gastos: {{coeficienteToPreview.coeficienteGastosindirectosProduccion.coeficienteGastoMantenimientoYRepMlc}}</v-list-item-subtitle>
                                                         </v-list>
                                                     </v-col>
                                                     <v-col cols="4">
-                                                        <v-list>
+                                                        <v-list v-if="coeficienteToPreview!==null">
                                                             <v-list-item-title>CUP</v-list-item-title>
+                                                            <v-list-item-subtitle>Totales: {{coeficienteToPreview.coeficienteGastosindirectosProduccion.coeficienteGastoTotalMn}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Depreciación: {{coeficienteToPreview.coeficienteGastosindirectosProduccion.coeficienteGastoDeprecMn}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle>Otros gastos: {{coeficienteToPreview.coeficienteGastosindirectosProduccion.coeficienteGastoMantenimientoYRepMn}}</v-list-item-subtitle>
                                                         </v-list>
                                                     </v-col>
                                                 </v-row>
@@ -937,7 +970,7 @@
                 },
                 stepperStep: 1,
                 coeficienteToDelete: {},
-                coeficienteToPreview: {}
+                coeficienteToPreview: null
             }
         },
         methods: {
