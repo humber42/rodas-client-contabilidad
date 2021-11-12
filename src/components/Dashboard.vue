@@ -8,13 +8,6 @@
       <v-card-title>Costos</v-card-title>
       <v-card-text>Bienvenido al modulo de costos de rodas</v-card-text>
     </v-card>
-    <br />
-    <v-alert color="secondary"></v-alert>
-    <v-alert color="accent"></v-alert>
-    <v-alert color="error"></v-alert>
-    <v-alert color="info"></v-alert>
-    <v-alert color="success"></v-alert>
-    <v-alert color="warning"></v-alert>
   </v-container>
 </template>
 

@@ -184,6 +184,10 @@ export const URL_GET_ALL_INDIRECT_CATEGORIES = SERVER_HOST+"/rodas-costos/api/v1
 export const URL_DELETE_CATEGORIE = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/delete/id/";
 export const URL_SAVE_CATEGORIE = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/save";
 export const URL_UPDATE_CATEGORIE = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion/update";
+export const URL_SAVE_CATEGORIE_COSTELEMENT = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion-elemento-gasto/save";
+export const URL_DELETE_CATEGORIE_ELEMENTO = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion-elemento-gasto/delete";
+export const URL_SAVE_INDIRECT_CATEGORIE_COSTELEMENT = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion-indirecta-elemento-gasto/save";
+export const URL_SAVE_INDIRECT_CATEGORIE_COSTSuBELEMENT = SERVER_HOST+"/rodas-costos/api/v1/rodas-costos/categoria-agrupacion-indirecta-subelemento-gasto/save";
 
 //Ficha de costo
 export const URL_GET_ALL_FICHA_COSTO =
