@@ -393,7 +393,7 @@
                                                         <v-list-item :key="item.id">
                                                             <v-list-item-action>
                                                                 <v-btn color="red"
-                                                                       @click="hanldeDeleteElementoSubelemento(item)"
+                                                                       @click="handleDeleteElementoSubelemento(item)"
                                                                        outlined>{{item.elemento}}
                                                                     <v-icon>mdi-delete</v-icon>
                                                                 </v-btn>
@@ -415,7 +415,7 @@
                                                         <v-list-item :key="item.id">
                                                             <v-list-item-action>
                                                                 <v-btn color="red"
-                                                                       @click="hanldeDeleteElementoSubelemento(item)"
+                                                                       @click="handleDeleteSubelemento(item)"
                                                                        outlined>{{item.subelemento}}
                                                                     <v-icon>mdi-delete</v-icon>
                                                                 </v-btn>
@@ -491,7 +491,9 @@
         URL_DELETE_CATEGORIE_ELEMENTO,
         URL_GET_ALL_SUBELEMENTOS_GASTO,
         URL_SAVE_INDIRECT_CATEGORIE_COSTELEMENT,
-        URL_SAVE_INDIRECT_CATEGORIE_COSTSuBELEMENT
+        URL_SAVE_INDIRECT_CATEGORIE_COSTSuBELEMENT,
+        URL_DELETE_INDIRECT_CATEGORIE_ELEMENTO,
+        URL_DELETE_INDIRECT_CATEGORIE_SUBELEMENTO
     } from "../../../constants/UrlResource";
 
     export default {
@@ -655,7 +657,12 @@
             },
             dialogOpenUpdate(item) {
                 console.log(item);
-                this.categoriaToUpdate = item;
+                this.categoriaToUpdate.id = item.id;
+                this.categoriaToUpdate.descripcion = item.descripcion;
+                this.categoriaToUpdate.nombre = item.nombre;
+                this.categoriaToUpdate.orden = item.orden;
+                this.categoriaToUpdate.tipoCategoria = item.tipoCategoria;
+                this.categoriaToUpdate.mostrarFichaCosto = item.mostrarFichaCosto;
                 this.openDialogUpdate = true;
             },
             openDialogRegisterDirectCategorie() {
@@ -745,7 +752,7 @@
                 if (this.$refs.formEdit.validate()) {
                     this.loading = true;
                     const token = localStorage.getItem("token");
-                    this.categoriaToUpdate.id = this.categAgrupacion.id;
+                    console.log("Categoria a MODIFICAR", this.categoriaToUpdate);
                     axios.put(URL_UPDATE_CATEGORIE, this.categoriaToUpdate, {
                         headers: {
                             "Authorization": "Bearer " + token,
@@ -778,7 +785,7 @@
                     this.openDialogCategSubelementoGasto = true;
                     this.categAgrupacionIndSubelementoGasto.categoriaIndirecta = item;
                     this.elementosDeLaCategoria = item.elementosList;
-                    this.subelementoList = item.subelementosList;
+                    this.subelementosDeLaCategoria = item.subelementosList;
                 }
 
             },
@@ -948,8 +955,53 @@
                     console.log(data)
                 }).catch(err => console.log(err))
             },
-            hanldeDeleteElementoSubelemento(item) {
-                console.log(item)
+            handleDeleteElementoSubelemento(item) {
+                const token = localStorage.getItem("token");
+                console.log("Elemento de la CI a eliminar", item)
+                axios.delete(URL_DELETE_INDIRECT_CATEGORIE_ELEMENTO, {
+                    params: {
+                        idCategoria: this.categAgrupacionIndSubelementoGasto.categoriaIndirecta.id,
+                        idElemento: item.id
+                    },
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "cache-control": "no-cache",
+                    }
+                }).then(() => {
+                    const index = this.elementosDeLaCategoria.indexOf(item);
+                    this.elementosDeLaCategoria.splice(index, 1);
+                    this.loadElementosGasto();
+                }).catch(err => {
+                    console.log(err);
+                    if (err.response.status === 403) {
+                        this.$store.commit('setUser', null)
+                        this.$router.push("/login")
+                    }
+                })
+            },
+            handleDeleteSubelemento(item){
+                const token = localStorage.getItem("token");
+                console.log("Subelemento de la CI a eliminar", item)
+                axios.delete(URL_DELETE_INDIRECT_CATEGORIE_SUBELEMENTO, {
+                    params: {
+                        idCategoria: this.categAgrupacionIndSubelementoGasto.categoriaIndirecta.id,
+                        idSubelemento: item.id
+                    },
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "cache-control": "no-cache",
+                    }
+                }).then(() => {
+                    const index = this.subelementosDeLaCategoria.indexOf(item);
+                    this.subelementosDeLaCategoria.splice(index, 1);
+                    this.loadSubelementosGasto();
+                }).catch(err => {
+                    console.log(err);
+                    if (err.response.status === 403) {
+                        this.$store.commit('setUser', null)
+                        this.$router.push("/login")
+                    }
+                })
             }
         },
         mounted() {
