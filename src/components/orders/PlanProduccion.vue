@@ -38,10 +38,10 @@
                                     <template v-slot:activator="{on,attrs}">
                                         <v-icon v-bind="attrs" v-on="on" class="mr-2" @click="editItem(item)"
                                                 color="orange">
-                                            mdi-pen
+                                            mdi-book-edit
                                         </v-icon>
                                     </template>
-                                    <span>Editar plan de producción</span>
+                                    <span>Manejar actividades</span>
                                 </v-tooltip>
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{on,attrs}">
@@ -120,16 +120,34 @@
                             </v-container>
                         </v-card>
                     </v-dialog>
-                    <v-dialog v-model="openDialogEdit" transition="fade" persistent max-width="520">
+                    <v-dialog v-model="openDialogEdit" transition="fade" persistent max-width="540">
                         <v-card>
-                            <v-card-title v-if="planProduccionToEdit!==null">Editar plan de producción de la UEB
+                            <v-card-title v-if="planProduccionToEdit!==null">Manejar actividades del plan de producción de la UEB
                                 {{planProduccionToEdit.ueb.nombreUeb}}
                             </v-card-title>
-                            <v-divider></v-divider>
                             <v-container v-if="planProduccionToEdit!==null">
+                                <h3 class="font-weight-light">Actividades del plan de producción</h3>
+                                <v-list>
+                                    <v-virtual-scroll width="520" height="150" item-height="50" :items="actividadesDelPlanProduccion">
+                                        <template v-slot:default="{item}">
+                                            <v-list-item :key="item.id" >
+                                                <v-list-item-action>
+                                                    <v-btn color="red" @click="handleDeleteAsign(item)" outlined>{{item.nombre}}<v-icon>mdi-delete</v-icon></v-btn>
+                                                </v-list-item-action>
+                                            </v-list-item>
+                                        </template>
+                                    </v-virtual-scroll>
+                                </v-list>
+                                <v-divider></v-divider>
                                 <v-form lazy-validation v-model="isFormValid" ref="formEdit"
                                         @submit.prevent="handleEditPlanProduccion">
-
+                                    <v-layout row class="ma-1">
+                                        <v-flex xs12>
+                                            <v-combobox :items="actividadesList" :rules="rules.actividad" hide-selected
+                                                        label="Seleccione la etapa" item-text="nombre" item-value="id"
+                                                        v-model="planProduccionActividad.actividad"></v-combobox>
+                                        </v-flex>
+                                    </v-layout>
                                     <v-layout row class="ma-1 text-right">
                                         <v-flex>
                                             <v-btn class="mr-1" color="success" type="submit" :loading="loading"
@@ -156,6 +174,7 @@
 <script>
     import axios from "axios";
     import {
+        URL_DELETE_ACTIVIDAD_PLAN_PRODUCCION_ESPECIAL,
         URL_DELETE_PLAN_PRODUCCION, URL_GET_ALL_ACTIVITIES,
         URL_GET_ALL_PLAN_PRODUCCION, URL_GET_ALL_UEB,
         URL_SAVE_ACTIVIDAD_PLAN_PRODUCCION,
@@ -181,6 +200,13 @@
                 openDeleteDialog: false,
                 openDialogEdit: false,
                 isFormValid: true,
+                planProduccionActividad:{
+                    id:0,
+                    idPlanProduccion:0,
+                    idActividad:0,
+                    planProduccion:null,
+                    actividad:null,
+                },
                 planProduccion: {
                     id: 1,
                     idUeb: 1,
@@ -200,11 +226,17 @@
                 },
                 uebsList: [],
                 actividadesList: [],
+                actividadesDelPlanProduccion:[],
             }
         },
         methods: {
             editItem(item) {
                 console.log(item);
+                this.loadActividades2();
+                this.planProduccionToEdit=item;
+                this.planProduccionActividad.planProduccion=item;
+                this.actividadesDelPlanProduccion=item.actividadDtoList;
+                this.openDialogEdit=true;
             },
             dialogOpenDelete(item) {
                 this.planProduccionToDelete = item;
@@ -316,6 +348,30 @@
                     }
                 })
             },
+            loadActividades2(){
+                const token = localStorage.getItem("token")
+                axios.get(URL_GET_ALL_ACTIVITIES, {
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "cache-control": "no-cache",
+                    }
+                }).then(({data}) => {
+                    console.log("Actividades", data);
+                    for(let i=0;i<this.planProduccionActividad.planProduccion.actividadDtoList.length;i++){
+                        for(let j=0;j<data.length;j++){
+                            if(data[j].id===this.planProduccionActividad.planProduccion.actividadDtoList[i].id){
+                                data.splice(j,1);
+                            }
+                        }
+                    }
+                    this.actividadesList=data;
+                }).catch(err => {
+                    console.log(err);
+                    if (err.response.status === 403) {
+                        this.$router.push("/login")
+                    }
+                })
+            },
             loadAllUebs(){
                 const token = localStorage.getItem("token");
                 axios.get(URL_GET_ALL_UEB, {
@@ -335,6 +391,30 @@
                 })
             },
             handleEditPlanProduccion(){
+                if(this.$refs.formEdit.validate()){
+                    this.loading=true;
+                    const token = localStorage.getItem('token');
+                    const paylaod ={
+                        id: 0,
+                        idActividad: this.planProduccionActividad.actividad.id,
+                        idPlanProduccion: this.planProduccionActividad.planProduccion.id
+                    }
+                    console.log("To save", paylaod);
+                    axios.post(URL_SAVE_ACTIVIDAD_PLAN_PRODUCCION,paylaod,{
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "cache-control": "no-cache",
+                        }
+                    }).then(({data})=>{
+                        this.loading=false;
+                        console.log(data);
+                        this.loadDataTable();
+                        this.handleCancelarEditDialog();
+                    }).catch(err=>{
+                        this.loading=false;
+                        console.error(err);
+                    })
+                }
 
             },
             handleCancelarEditDialog() {
@@ -348,6 +428,23 @@
                 } else {
                     this.classButtons = false;
                 }
+            },
+            handleDeleteAsign(item){
+                const token = localStorage.getItem("token");
+                axios.delete(URL_DELETE_ACTIVIDAD_PLAN_PRODUCCION_ESPECIAL,{
+                    params:{
+                        idActividad:item.id,
+                        idPlanProduccion:this.planProduccionActividad.planProduccion.id
+                    }
+                    ,headers: {
+                        "Authorization": "Bearer " + token,
+                        "cache-control": "no-cache",
+                    }
+                }).then(()=>{
+                   const i= this.actividadesDelPlanProduccion.indexOf(item)
+                    this.actividadesDelPlanProduccion.splice(i,1);
+                   this.loadActividades2()
+                }).catch(err=>console.log(err))
             }
         },
         mounted() {

@@ -334,7 +334,7 @@
             },
             handleCancelarDeleteDialog() {
                 this.openDeleteDialog = false;
-                this.spendElementToDelete = {};
+                this.trabajadorToDelete = {};
             },
             handleEditTrabajador(){
                 if (this.$refs.formEdit.validate()) {

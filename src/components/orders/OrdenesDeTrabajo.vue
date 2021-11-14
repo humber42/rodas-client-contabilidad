@@ -39,6 +39,15 @@
                             <template v-slot:item.actions="{item}">
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{on,attrs}">
+                                        <v-icon v-bind="attrs" v-on="on" class="mr-2" @click="closeOrdenTrabajo(item)"
+                                                :color="item.cerrada?'green':'primary'">
+                                            {{item.cerrada?"mdi-cancel":"mdi-check"}}
+                                        </v-icon>
+                                    </template>
+                                    <span>{{item.cerrada?"Abrir":"Cerrar"}} orden de trabajo</span>
+                                </v-tooltip>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{on,attrs}">
                                         <v-icon v-bind="attrs" v-on="on" class="mr-2" @click="deleteItem(item)"
                                                 color="red">
                                             mdi-delete
@@ -81,7 +90,11 @@
 
 <script>
     import axios from "axios";
-    import {URL_DELETE_ORDEN_TRABAJO, URL_GET_ALL_ORDEN_TRBAJO} from "../../constants/UrlResource";
+    import {
+        URL_CLOSE_OR_OPEN_ORDEN_TRABAJO,
+        URL_DELETE_ORDEN_TRABAJO,
+        URL_GET_ALL_ORDEN_TRBAJO
+    } from "../../constants/UrlResource";
 
     export default {
         name: "OrdenesDeTrabajo",
@@ -162,6 +175,20 @@
             handleCancelDeleteDialog(){
                 this.openDeleteDialog=false;
                 this.ordenTrabajoToDelete=null
+            },
+            closeOrdenTrabajo(item){
+                const token = localStorage.getItem('token');
+                axios.put(URL_CLOSE_OR_OPEN_ORDEN_TRABAJO,null,{
+                    params:{
+                        id:item.id
+                    },
+                    headers:{
+                        "Authorization": "Bearer " + token,
+                        "cache-control": "no-cache",
+                    }
+                }).then(()=>{
+                    item.cerrada=!item.cerrada
+                }).catch(err=>console.log(err));
             },
             onResizes() {
                 const windowsSize = {x: window.innerWidth, y: window.innerHeight}
