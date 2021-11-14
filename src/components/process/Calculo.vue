@@ -1,12 +1,14 @@
 <template>
     <v-container>
-        <h1>Calculo</h1>
+        <DevelopmentSite/>
     </v-container>
 </template>
 
 <script>
+    import DevelopmentSite from "../DevelopmentSite";
     export default {
-        name: "Calculo"
+        name: "Calculo",
+        components: {DevelopmentSite}
     }
 </script>
 

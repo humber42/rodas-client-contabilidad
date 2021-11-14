@@ -4,24 +4,16 @@
       <h2 class="font-weight-light">Bienvenido, {{ user.fullname }}</h2>
     </div>
 
-    <v-card style="width: 500px" shaped>
-      <v-card-title>Costos</v-card-title>
-      <v-card-text>Bienvenido al modulo de costos de rodas</v-card-text>
-    </v-card>
-    <br />
-    <v-alert color="secondary"></v-alert>
-    <v-alert color="accent"></v-alert>
-    <v-alert color="error"></v-alert>
-    <v-alert color="info"></v-alert>
-    <v-alert color="success"></v-alert>
-    <v-alert color="warning"></v-alert>
+    <DevelopmentSite/>
   </v-container>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import DevelopmentSite from "./DevelopmentSite";
 export default {
   name: "Dashboard",
+  components: {DevelopmentSite},
   computed: {
     ...mapGetters(["user"]),
   },
