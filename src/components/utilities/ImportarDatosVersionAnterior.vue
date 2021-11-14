@@ -1,12 +1,14 @@
 <template>
     <v-container>
-        <h1>Importar Datos Version Anterior</h1>
+        <DevelopmentSite/>
     </v-container>
 </template>
 
 <script>
+    import DevelopmentSite from "../DevelopmentSite";
     export default {
-        name: "ImportarDatosVersionAnterior"
+        name: "ImportarDatosVersionAnterior",
+        components: {DevelopmentSite}
     }
 </script>
 

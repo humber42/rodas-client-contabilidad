@@ -1,12 +1,14 @@
 <template>
     <v-container>
-        <h1>Configuracion Sistema</h1>
+        <DevelopmentSite/>
     </v-container>
 </template>
 
 <script>
+    import DevelopmentSite from "../DevelopmentSite";
     export default {
-        name: "ConfiguracionSistema"
+        name: "ConfiguracionSistema",
+        components: {DevelopmentSite}
     }
 </script>
 

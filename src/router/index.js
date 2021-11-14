@@ -29,6 +29,7 @@ import ConfiguracionSistema from "../components/utilities/ConfiguracionSistema";
 import ImportarDatosVersionAnterior from "../components/utilities/ImportarDatosVersionAnterior";
 import Trabajador from "../components/codifiers/personsUebs/Trabajador";
 import RegisterOrdenTrabajo from "../components/orders/childComponents/RegisterOrdenTrabajo";
+import NormaConsumo from "../components/orders/NormaConsumo";
 
 
 Vue.use(VueRouter);
@@ -177,6 +178,11 @@ const routes = [
     path: "/register-work-order",
     name: "RegisterOrdenTrabajo",
     component: RegisterOrdenTrabajo
+  },
+  {
+    path: "/consume-norm",
+    name:"NormaConsumo",
+    component: NormaConsumo
   }
 ];
 

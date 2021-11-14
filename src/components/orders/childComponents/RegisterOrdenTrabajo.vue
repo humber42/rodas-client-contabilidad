@@ -48,7 +48,7 @@
                                                 <v-layout row class="ma-1">
                                                     <v-flex xs12>
                                                         <v-text-field label="Fecha de Entrega"
-                                                                      type="datetime-local"
+                                                                      type="date"
                                                                       v-model="datosGenerales.fechaEntrega"
                                                                       :rules="rules.fechaConfeccion"></v-text-field>
                                                     </v-flex>
@@ -74,7 +74,7 @@
                                                 <v-layout row class="ma-1">
                                                     <v-flex xs12>
                                                         <v-text-field label="Fecha de confección"
-                                                                      type="datetime-local"
+                                                                      type="date"
                                                                       v-model="datosGenerales.fechaConfeccion"
                                                                       :rules="rules.fechaConfeccion"></v-text-field>
                                                     </v-flex>

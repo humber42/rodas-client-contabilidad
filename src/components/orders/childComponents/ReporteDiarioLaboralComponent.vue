@@ -45,7 +45,7 @@
                                 <v-layout row class="ma-1">
                                     <v-flex xs12>
                                         <v-text-field label="Fecha" v-model="reporteDiario.fecha"
-                                                      :rules="rules.fecha" type="datetime-local"
+                                                      :rules="rules.fecha" type="date"
                                         ></v-text-field>
                                     </v-flex>
                                 </v-layout>

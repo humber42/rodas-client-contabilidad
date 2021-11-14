@@ -52,7 +52,7 @@
 <!--                </v-flex>-->
 <!--            </v-layout>-->
 <!--        </v-container>-->
-        <div >
+        <div>
             <v-row>
                 <v-col>
                     <div class="div-login text-center mt-3 ml-5">

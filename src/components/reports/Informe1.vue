@@ -1,12 +1,14 @@
 <template>
     <v-container>
-        <h1>Informe 1</h1>
+        <DevelopmentSite></DevelopmentSite>
     </v-container>
 </template>
 
 <script>
+    import DevelopmentSite from "../DevelopmentSite";
     export default {
-        name: "Informe1"
+        name: "Informe1",
+        components: {DevelopmentSite}
     }
 </script>
 
