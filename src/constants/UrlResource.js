@@ -1,6 +1,6 @@
 //Projects urls
 export const JWT_SECRET_KEY = "QsbjabKbkbKjsdays89sdskdnasnSSUasndasndP";
-const SERVER_HOST = "http://localhost:8084";
+const SERVER_HOST = "http://192.168.137.1:8084";
 /**
  * Security Urls
  **/
@@ -198,6 +198,7 @@ export const URL_SAVE_FICHA_COSTO =
     SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/ficha-costo/save";
 export const URL_DELETE_FICHA_COSTO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/ficha-costo/delete/id/";
 export const URL_UPDATE_FICHA_COSTO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/ficha-costo/update";
+export const URL_APROVE_FICHA_COSTO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/ficha-costo/update/aproove";
 
 //Plan de produccion
 export const URL_UPDATE_PLAN_PRODUCCION = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/plan-produccion/update";
@@ -209,6 +210,7 @@ export const URL_DELETE_PLAN_PRODUCCION = SERVER_HOST + "/rodas-costos/api/v1/ro
 export const URL_GET_ALL_ACTIVIDAD_PLAN_PRODUCCION = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/ueb-actividades-plan-produccion/all";
 export const URL_SAVE_ACTIVIDAD_PLAN_PRODUCCION = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/ueb-actividades-plan-produccion/save";
 export const URL_DELETE_ACTIVIDAD_PLAN_PRODUCCION = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/ueb-actividades-plan-produccion/delete/id/";
+export const URL_DELETE_ACTIVIDAD_PLAN_PRODUCCION_ESPECIAL = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/ueb-actividades-plan-produccion/delete/especial";
 export const URL_UPDATE_ACTIVIDAD_PLAN_PRODUCCION = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/ueb-actividades-plan-produccion/update";
 
 //Orden de trabajo
@@ -216,9 +218,20 @@ export const URL_GET_ALL_ORDEN_TRBAJO = SERVER_HOST + "/rodas-costos/api/v1/roda
 export const URL_SAVE_ORDEN_TRABAJO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/orden-trabajo/save";
 export const URL_DELETE_ORDEN_TRABAJO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/orden-trabajo/delete/id/";
 export const URL_UPDATE_ORDEN_TRABAJO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/orden-trabajo/update";
+export const URL_CLOSE_OR_OPEN_ORDEN_TRABAJO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/orden-trabajo/update/close";
 
 
 //ORDEN TRABAJO Materiales Registro laboral diario
 export const URL_SAVE_MATERIAL = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/material/save/especial";
 export const URL_SAVE_REGISTRO = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/reporte-diario-laboral/save/especial";
 export const URL_SAVE_ORDEN_FACTURACION = SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/orden-facturacion/save";
+
+//Normas de consumo
+export const URL_GET_ALL_NORMAS_CONSUMO =SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/norma-consumo/all";
+export const URL_SAVE_NORMAS_CONSUMO =SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/norma-consumo/save";
+export const URL_DELETE_NORMAS_CONSUMO =SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/norma-consumo/delete/id/";
+export const URL_UPDATE_NORMAS_CONSUMO =SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/norma-consumo/update";
+
+//NORMACONSUMO-FICHACOSTO
+export const URL_SAVE_NORMAS_CONSUMO_FICHA_COSTO =SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/norma-consumo-ficha-costo/save";
+export const URL_DELETE_NORMAS_CONSUMO_FICHA_COSTO =SERVER_HOST + "/rodas-costos/api/v1/rodas-costos/norma-consumo-ficha-costo/delete/especial";

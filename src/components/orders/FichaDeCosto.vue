@@ -11,7 +11,8 @@
                         >
                             <template v-slot:top>
                                 <v-toolbar flat>
-                                    <v-toolbar-title class="hidden-sm-and-down">Lista de Fichas de Costo</v-toolbar-title>
+                                    <v-toolbar-title class="hidden-sm-and-down">Lista de Fichas de Costo
+                                    </v-toolbar-title>
                                     <v-spacer></v-spacer>
                                     <v-text-field v-model="search" append-icon="mdi-magnify" label="Buscar"
                                                   single-line hide-details></v-text-field>
@@ -33,17 +34,27 @@
                                 </v-toolbar>
                             </template>
                             <template v-slot:item.aprobada="{item}">
-                                <v-checkbox v-model="item.aprobada" readonly class="shrink ml-lg-12 ml-md-7 ml-sm-6"></v-checkbox>
+                                <v-checkbox v-model="item.aprobada" readonly
+                                            class="shrink ml-lg-12 ml-md-7 ml-sm-6"></v-checkbox>
                             </template>
                             <template v-slot:item.actions="{item}">
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{on,attrs}">
                                         <v-icon v-bind="attrs" v-on="on" class="mr-2" @click="editItem(item)"
                                                 color="orange">
-                                            mdi-pen
+                                            mdi-book-edit
                                         </v-icon>
                                     </template>
-                                    <span>Editar ficha de costo</span>
+                                    <span>Manejar normas de consumo</span>
+                                </v-tooltip>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{on,attrs}">
+                                        <v-icon v-bind="attrs" v-on="on" class="mr-2" @click="aprobarOrdenTrabajo(item)"
+                                                :color="item.aprobada?'green':'primary'">
+                                            {{item.aprobada?"mdi-cancel":"mdi-check"}}
+                                        </v-icon>
+                                    </template>
+                                    <span>{{item.aprobada?"Desaprobar":"Aprobar"}} ficha de costo</span>
                                 </v-tooltip>
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{on,attrs}">
@@ -97,7 +108,8 @@
                             </v-card-title>
                             <v-divider></v-divider>
                             <v-container>
-                                <h3 v-if="fichaCostoToDelete!==null" class="font-weight-light">¿Desea eliminar la ficha de costo para la actividad
+                                <h3 v-if="fichaCostoToDelete!==null" class="font-weight-light">¿Desea eliminar la ficha
+                                    de costo para la actividad
                                     {{fichaCostoToDelete.actividad.nombre}}?</h3>
                                 <v-layout row class="ma-1 text-center">
                                     <v-flex xs12>
@@ -117,19 +129,38 @@
                     </v-dialog>
                     <v-dialog v-model="openDialogEdit" transition="fade" persistent max-width="520">
                         <v-card>
-                            <v-card-title v-if="fichaCostoToEdit!==null">Editar ficha de costo para la actividad                           código
+                            <v-card-title v-if="fichaCostoToEdit!==null">Manejar normas de consumo para la ficha de
+                                costo de la actividad
                                 {{fichaCostoToEdit.actividad.nombre}}
                             </v-card-title>
                             <v-divider></v-divider>
                             <v-container v-if="fichaCostoToEdit!==null">
+                                <h3 class="font-weight-light">Normas de consumo existentes</h3>
+                                <v-list>
+                                    <v-virtual-scroll width="520" height="150" item-height="50"
+                                                      :items="normasConsumoDeFichaCosto">
+                                        <template v-slot:default="{item}">
+                                            <v-list-item :key="item.id">
+                                                <v-list-item-title>Aprobada por: {{item.nombreAprueba}}</v-list-item-title>
+                                                <v-spacer></v-spacer>
+                                                <v-list-item-subtitle>Precio: {{item.precio}}</v-list-item-subtitle>
+                                                <v-list-item-action>
+                                                    <v-btn color="red" @click="handleDeleteAsign(item)" icon><v-icon>mdi-delete</v-icon></v-btn>
+                                                </v-list-item-action>
+                                            </v-list-item>
+                                        </template>
+                                    </v-virtual-scroll>
+                                </v-list>
+                                <v-divider></v-divider>
                                 <v-form lazy-validation v-model="isFormValid" ref="formEdit"
-                                        @submit.prevent="handleEditFichaCosto">
+                                        @submit.prevent="handleAddNormasConsumo">
                                     <v-layout row class="ma-1">
                                         <v-flex xs12>
-                                            <v-combobox :items="actividades" label="Actividades" hide-selected
-                                                        item-text="nombre" item-value="id"
-                                                        v-model="fichaCostoToEdit.actividad"
-                                                        :rules="rules.actividad"></v-combobox>
+                                            <v-combobox :items="normasConsumoList" :rules="rules.actividad"
+                                                        hide-selected
+                                                        label="Seleccione la norma de consumo" item-text="id"
+                                                        item-value="id"
+                                                        v-model="fichaCostoNormaConsumo.normasConsumo"></v-combobox>
                                         </v-flex>
                                     </v-layout>
                                     <v-layout row class="ma-1 text-right">
@@ -158,10 +189,11 @@
 <script>
     import axios from "axios";
     import {
-        URL_DELETE_FICHA_COSTO,
+        URL_APROVE_FICHA_COSTO,
+        URL_DELETE_FICHA_COSTO, URL_DELETE_NORMAS_CONSUMO_FICHA_COSTO,
         URL_GET_ALL_ACTIVITIES,
-        URL_GET_ALL_FICHA_COSTO,
-        URL_SAVE_FICHA_COSTO
+        URL_GET_ALL_FICHA_COSTO, URL_GET_ALL_NORMAS_CONSUMO,
+        URL_SAVE_FICHA_COSTO, URL_SAVE_NORMAS_CONSUMO_FICHA_COSTO
     } from "../../constants/UrlResource";
 
     export default {
@@ -173,17 +205,24 @@
                 classButtons: '',
                 fichasDeCostoList: [],
                 headers: [
-                    {text:"Actividad",value:"actividad.nombre",align:"center"},
-                    {text:"Cantidad de Normas de Consumo",value:"normasConsumoList.length",align:"center"},
-                    {text:"Cantidad de Órdenes de Trabajo",value:"ordenTrabajoList.length",align:"center"},
-                    {text:"Aprobada",value:"aprobada",align: "center"},
-                    {text:"Acciones",value:"actions",align: "center"}
+                    {text: "Actividad", value: "actividad.nombre", align: "center"},
+                    {text: "Cantidad de Normas de Consumo", value: "normasConsumoList.length", align: "center"},
+                    {text: "Cantidad de Órdenes de Trabajo", value: "ordenTrabajoList.length", align: "center"},
+                    {text: "Aprobada", value: "aprobada", align: "center"},
+                    {text: "Acciones", value: "actions", align: "center"}
                 ],
                 search: '',
                 openDialogNew: false,
                 openDeleteDialog: false,
                 openDialogEdit: false,
                 isFormValid: true,
+                fichaCostoNormaConsumo: {
+                    id: 0,
+                    idNormaConsumo: 0,
+                    idFichaCosto: 0,
+                    normasConsumo: null,
+                    fichaCosto: null
+                },
                 fichaCosto: {
                     id: 1,
                     idActividad: 1,
@@ -199,23 +238,31 @@
                         (actividad) => !!actividad || "La ficha de costo necesita una actividad",
                     ]
                 },
-                actividades: []
+                actividades: [],
+                normasConsumoList: [],
+                normasConsumoDeFichaCosto: []
             }
         },
-        methods:{
-            editItem(item){
+        methods: {
+            editItem(item) {
+                console.log(item);
+                this.loadNormasConsumo();
+                this.fichaCostoToEdit = item;
+                this.fichaCostoNormaConsumo.fichaCosto = item;
+                this.normasConsumoDeFichaCosto = item.normasConsumoList
+                console.log("Normas de consumo de ficha costo",this.normasConsumoDeFichaCosto);
+                this.openDialogEdit = true;
+            },
+            dialogOpenDelete(item) {
+                this.fichaCostoToDelete = item;
                 console.log(item)
+                this.openDeleteDialog = true;
             },
-            dialogOpenDelete(item){
-                this.fichaCostoToDelete=item;
-              console.log(item)
-                this.openDeleteDialog=true;
-            },
-            openDialogoNew(){
+            openDialogoNew() {
                 this.loadActividades()
-                this.openDialogNew=true;
+                this.openDialogNew = true;
             },
-            loadDataTable(){
+            loadDataTable() {
                 this.tableLoading = true;
                 const token = localStorage.getItem("token")
                 axios.get(URL_GET_ALL_FICHA_COSTO, {
@@ -234,7 +281,7 @@
                     }
                 })
             },
-            handleNewFichaCosto(){
+            handleNewFichaCosto() {
                 if (this.$refs.formNew.validate()) {
                     this.loading = true;
                     const token = localStorage.getItem("token")
@@ -265,10 +312,10 @@
                 this.$refs.formNew.reset();
                 this.openDialogNew = false;
             },
-            handleDeleteFichaCosto(){
+            handleDeleteFichaCosto() {
                 this.loading = true;
                 const token = localStorage.getItem("token");
-                axios.delete( URL_DELETE_FICHA_COSTO+ this.fichaCostoToDelete.id, {
+                axios.delete(URL_DELETE_FICHA_COSTO + this.fichaCostoToDelete.id, {
                     headers: {
                         "Authorization": "Bearer " + token,
                         "cache-control": "no-cache",
@@ -286,7 +333,7 @@
                 this.openDeleteDialog = false;
                 this.fichaCostoToDelete = null;
             },
-            loadActividades(){
+            loadActividades() {
                 const token = localStorage.getItem("token")
                 axios.get(URL_GET_ALL_ACTIVITIES, {
                     headers: {
@@ -303,8 +350,31 @@
                     }
                 })
             },
-            handleEditFichaCosto(){
-
+            handleAddNormasConsumo() {
+                if(this.$refs.formEdit.validate()) {
+                    this.loading = true;
+                    const token = localStorage.getItem('token');
+                    const paylaod = {
+                        id: 0,
+                        idFichaCosto: this.fichaCostoNormaConsumo.fichaCosto.id,
+                        idNormaConsumo: this.fichaCostoNormaConsumo.normasConsumo.id
+                    }
+                    console.log("To save", paylaod);
+                    axios.post(URL_SAVE_NORMAS_CONSUMO_FICHA_COSTO, paylaod, {
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "cache-control": "no-cache",
+                        }
+                    }).then(({data}) => {
+                        this.loading = false;
+                        console.log(data);
+                        this.loadDataTable();
+                        this.handleCancelarEditDialog();
+                    }).catch(err => {
+                        this.loading = false;
+                        console.error(err);
+                    })
+                }
             },
             handleCancelarEditDialog() {
                 this.$refs.formEdit.reset();
@@ -317,7 +387,65 @@
                 } else {
                     this.classButtons = false;
                 }
+            },
+            aprobarOrdenTrabajo(item) {
+                const token = localStorage.getItem('token');
+                axios.put(URL_APROVE_FICHA_COSTO, null, {
+                    params: {
+                        id: item.id
+                    },
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "cache-control": "no-cache",
+                    }
+                }).then(() => {
+                    item.aprobada = !item.aprobada
+                }).catch(err => {
+                    err.console.log(err)
+                })
+            },
+            loadNormasConsumo() {
+                const token = localStorage.getItem("token");
+                axios.get(URL_GET_ALL_NORMAS_CONSUMO, {
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "cache-control": "no-cache",
+                    }
+                }).then(({data}) => {
+                    console.log("Norma Consumo", data);
+                    for (let i = 0; i < this.fichaCostoNormaConsumo.fichaCosto.normasConsumoList.length; i++)
+                        for (let j = 0; j < data.length; j++) {
+                            if (data[j].id === this.fichaCostoNormaConsumo.fichaCosto.normasConsumoList[i].id) {
+                                data.splice(j, 1);
+                            }
+                        }
+                    this.normasConsumoList = data;
+                }).catch(err => {
+                    console.log(err);
+                    if (err.response.status === 403) {
+                        this.$store.commit('setUser', null)
+                        this.$router.push("/login")
+                    }
+                })
+            },
+            handleDeleteAsign(item){
+                const token = localStorage.getItem('token');
+                axios.delete(URL_DELETE_NORMAS_CONSUMO_FICHA_COSTO,{
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "cache-control": "no-cache",
+                    },
+                    params:{
+                        idFichaCosto:this.fichaCostoNormaConsumo.fichaCosto.id,
+                        idNormaConsumo:item.id
+                    }
+                }).then(()=>{
+                    const i = this.normasConsumoDeFichaCosto.indexOf(item);
+                    this.normasConsumoDeFichaCosto.splice(i,1);
+                    this.loadNormasConsumo();
+                }).catch(err=>console.log(err));
             }
+
         },
         mounted() {
             this.loadDataTable()

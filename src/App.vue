@@ -165,6 +165,7 @@
                 drawer: false,
                 orderMenu: [
                     {title: "Órdenes de trabajo", to: "/work-order"},
+                    {title: "Normas de consumo", to: "/consume-norm"},
                     {title: "Ficha de costo", to: "/cost-sheet"},
                     {title: "Plan Producción", to: "/production-plan"},
                     {title: "Presupuesto", to: "/budget"}
